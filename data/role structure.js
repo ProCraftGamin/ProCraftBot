@@ -1,0 +1,38 @@
+module.exports = {
+	special: {
+		'role': '1048818695721472040',
+		'Very important people': '1028784981037813821',
+		'ProCraft\'s Alt': '966079690232184902',
+		'Lift operator': '1029533620211290132',
+		'Friends of ProCraftGamin': '959586343078490193',
+		'Content Creator/Streamer': '982860660364955668',
+	},
+	supporters: {
+		'role': '1048424369640190042',
+		'Ko-fi supporter': '1034698302861611068',
+		'Server Booster': '999148218891911319',
+		'Twitch Subscriber: Tier 3': '1032446747647152161',
+		'Twitch Subscriber: Tier 2': '1032446747647152160',
+		'Twitch Subscriber: Tier 1': '1032446747647152159',
+		'Twitch Subscriber': '1032446747647152158',
+	},
+	pings: {
+		'role': '1048423010857660436',
+		'Event pings': '989400028630122496',
+		'Poll pings': '975259875493945344',
+		'Livestream pings': '1048428131435950150',
+		'Tweet pings': '1048428954358390845',
+		'Video pings': '1048429228309364846',
+	},
+	pronouns: {
+		'role': '1048439348955185242',
+		'She / Her': '1048440786410278982',
+		'He / Him': '1048440881503555675',
+		'She / They': '1048440930958573658',
+		'He / They': '1048440972574457868',
+		'They / Them': '1049006687509557378',
+		'Any Pronouns': '1048441045060431932',
+		'Ask My Pronouns (Ping In Server)': '1048441088991576064',
+		'Ask My Pronouns (DM Me)': '1048441119861653506',
+	},
+};

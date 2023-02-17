@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "eslint": "^8.28.0"
+  },
+  "dependencies": {
+    "@discordjs/voice": "^0.14.0",
+    "canvas": "^2.10.2",
+    "discord.js": "^14.7.0",
+    "dotenv": "^16.0.3",
+    "libsodium-wrappers": "^0.7.10",
+    "tmi.js": "^1.8.5"
+  }
+}
