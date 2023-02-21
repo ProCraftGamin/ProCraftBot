@@ -1,8 +1,11 @@
+/* eslint-disable no-fallthrough */
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable brace-style */
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const wait = require('node:timers/promises').setTimeout;
+const { sendToWii } = require('../data/private functions.js');
+const { removeBal } = require('../data/arcade utils.js');
 
 module.exports = {
 	name: 'interactionCreate',
@@ -84,8 +87,8 @@ module.exports = {
 					break;
 					// moderator actions
 				case interaction.customId[0] === 'm' && interaction.customId[1] === '|':
-					switch (true) {
-					case buttonIdSplit[1] == 'n':
+					switch (buttonIdSplit[1]) {
+					case 'n':
 						interaction.message.delete();
 						// buttomIdSplit format: m|n|(A/D)|(user id)|nickname
 						const gMember = await interaction.guild.members.fetch({ user: buttonIdSplit[3], force: true });
@@ -122,8 +125,37 @@ module.exports = {
 							}
 
 						}
+
+						break;
+
+					case 'msg':
+						interaction.message.delete();
+						interaction.deferUpdate();
+						// id format: m|msg|(A/D)|(user id)|content
+						const gm = await interaction.guild.members.fetch({ user: buttonIdSplit[3], force: true });
+						if (buttonIdSplit[2] == 'a') {
+							const returnEmbed = new EmbedBuilder()
+								.setColor('DarkGreen')
+								.setTitle(`Moderators have approved your request to send "${buttonIdSplit[4]}" to Pro's Wii! It should be sent within the next 24 hours.`);
+							try {
+								await gm.user.send({ embeds: [returnEmbed] });
+							} catch (error) {
+								console.error(error);
+							}
+							removeBal(gm.id, 1000);
+							sendToWii(buttonIdSplit[4], gm.user);
+						} else {
+							const returnEmbed = new EmbedBuilder()
+								.setColor('DarkRed')
+								.setTitle(`Moderators have denied your request to send "${buttonIdSplit[4]}" to Pro's Wii.`);
+							try {
+								await gm.user.send({ embeds: [returnEmbed] });
+							} catch (error) {
+								console.error(error);
+							}
+						}
+						break;
 					}
-					break;
 
 				default:
 					const buttonPress = require(`../buttons/${interaction.customId}.js`);
