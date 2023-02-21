@@ -51,14 +51,18 @@ module.exports = {
 			if (interaction.options.getBoolean('ping')) {
 				await interaction.guild.channels.cache.get(pollChannel).send({ content: roleMention('975259875493945344'), embeds: [embed] }).then(async sentMessage => {
 					sentMessage.react(interaction.options.getString('option-1'));
-					sentMessage.react(interaction.options.getString('option-2'));
+					if (interaction.options.getString('option-2')) {
+						sentMessage.react(interaction.options.getString('option-2'));
+					}
 					await wait (1000);
 					sentMessage.edit({ content: '', embeds: [embed] });
 				});
 			} else {
 				await interaction.guild.channels.cache.get(pollChannel).send({ embeds: [embed] }).then(sentMessage => {
 					sentMessage.react(interaction.options.getString('option-1'));
-					sentMessage.react(interaction.options.getString('option-2'));
+					if (interaction.options.getString('option-2')) {
+						sentMessage.react(interaction.options.getString('option-2'));
+					}
 				});
 			}
 		} catch (error) {
