@@ -17,15 +17,17 @@ const cmdFunctions = (client) => {
 			} else {
 				const inputSplitdummy = input.split('-');
 				const inputSplit = String(inputSplitdummy[1]).split('|');
-				const channel = client.channels.cache.get(inputSplit[0]);
-				channel.send(inputSplit[1]);
+				try {
+					const channel = client.channels.cache.get(inputSplit[0]);
+					channel.send(inputSplit[1]);
+				} catch (error) {console.error(error);}
 				cmdFunctions();
 			}
 		} else if (input.includes('dm')) {
 			try {
 				const inputSplitdummy = input.split('-');
 				const inputSplit = String(inputSplitdummy[1]).split('|');
-				console.log(inputSplit[0]);
+
 				client.users.send(inputSplit[0], inputSplit[1]);
 				cmdFunctions();
 			} catch (error) {
