@@ -7,7 +7,7 @@ module.exports = {
 		.setName('shop')
 		.setDescription('Spend your ProCraft Points on various things!'),
 	async execute(interaction) {
-		await interaction.deferReply();
+		await interaction.deferReply({ ephemeral: true });
 		let bal = await getBal(interaction.user.id);
 		if (!bal) {
 			const embed = new EmbedBuilder()
