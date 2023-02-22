@@ -160,11 +160,16 @@ const checkRoles = async (client) => {
 	let embed = new EmbedBuilder()
 		.setTitle('Role checks in progress...')
 		.setColor('DarkRed');
+	let eventScheduled = true;
 	const Guild = await client.guilds.fetch(guildId);
 	const members = await Guild.members.fetch();
 	const memberIds = members.map(user => user.id);
 	const roleStructure = require('../data/role structure');
 	const { logChannel } = require('../config.json');
+	const events = await Guild.scheduledEvents.fetch();
+	if (events.first() == null) {
+		eventScheduled = false;
+	}
 	await client.channels.cache.get(logChannel).send({ embeds: [embed] }).then(async message => {
 
 
@@ -174,6 +179,10 @@ const checkRoles = async (client) => {
 		for (let i = 0; i < memberIds.length; i++) {
 			const member = await Guild.members.fetch(memberIds[i]);
 			const userRoles = member.roles.cache.map(role => role.id);
+			if (!eventScheduled && member.roles.cache.some(role => role.id == '1049870120392081518')) {
+				member.roles.remove('1049870120392081518');
+				returnDescription = returnDescription + `❌ Removed the dividing role for **Events** from **${member.user.username}**, because there are no events scheduled.\n\n`;
+			}
 			// for each role the user has
 
 			// for each category
