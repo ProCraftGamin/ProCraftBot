@@ -1,6 +1,9 @@
 const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { getBal } = require('../../data/arcade utils');
 const { moderatorChannel } = require('../../config.json');
+const fs = require('fs');
+const pendingJson = fs.readFileSync('data/pending requests.json');
+const pending = JSON.parse(pendingJson);
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -109,7 +112,9 @@ module.exports = {
 
 												interaction.editReply({ embeds: [embed], components: [] });
 
-												mCollector.on('collect', c3 => {
+												mCollector.on('collect', async c3 => {
+													pending.item1[interaction.user.id] = c3.content;
+													fs.writeFileSync('data/pending requests.json', await JSON.stringify(pending, null, 2));
 													embed = new EmbedBuilder()
 														.setColor('DarkGreen')
 														.setAuthor({ name: `${interaction.user.username} has requested to send "${c3.content}" to ProCraftGamin's Wii`, iconURL: interaction.user.avatarURL() });
@@ -117,13 +122,13 @@ module.exports = {
 													row = new ActionRowBuilder()
 														.addComponents(
 															new ButtonBuilder()
-																.setCustomId(`m|msg|a|${interaction.user.id}|${c3.content}`)
+																.setCustomId(`m|msg|a|${interaction.user.id}`)
 																.setStyle(ButtonStyle.Success)
 																.setLabel('Approve'),
 														)
 														.addComponents(
 															new ButtonBuilder()
-																.setCustomId(`m|msg|d|${interaction.user.id}|${c3.content}`)
+																.setCustomId(`m|msg|d|${interaction.user.id}`)
 																.setStyle(ButtonStyle.Danger)
 																.setLabel('Deny'),
 														);
@@ -143,7 +148,9 @@ module.exports = {
 												const mFilter = (f) => f.user.id == interaction.user.id;
 												const mCollector = m2.channel.createMessageCollector({ mFilter, time: 900000 });
 
-												mCollector.on('collect', c3 => {
+												mCollector.on('collect', async c3 => {
+													pending.item1[interaction.user.id] = c3.content;
+													fs.writeFileSync('data/pending requests.json', await JSON.stringify(pending, null, 2));
 													embed = new EmbedBuilder()
 														.setColor('DarkGreen')
 														.setAuthor({ name: `${interaction.user.username} has requested to send "${c3.content}" to ProCraftGamin's Wii`, iconURL: interaction.user.avatarURL() });
