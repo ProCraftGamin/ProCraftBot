@@ -2,8 +2,6 @@ const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, EmbedBui
 const { getBal } = require('../../data/arcade utils');
 const { moderatorChannel } = require('../../config.json');
 const fs = require('fs');
-const pendingJson = fs.readFileSync('data/pending requests.json');
-const pending = JSON.parse(pendingJson);
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -20,6 +18,8 @@ module.exports = {
 			await interaction.editReply({ embed: [embed], ephemeral: true });
 		} else {
 			const execute = async () => {
+				const pendingJson = fs.readFileSync('data/pending requests.json');
+				const pending = JSON.parse(pendingJson);
 				bal = await getBal(interaction.user.id);
 				let embed = new EmbedBuilder()
 					.setColor('Blue')
@@ -54,15 +54,26 @@ module.exports = {
 
 						switch (c.values[0]) {
 						case 'item1':
-							embed = new EmbedBuilder()
-								.setColor('Blue')
-								.setAuthor({ name: `${interaction.user.username}, you have ${bal} ProCraft Points`, iconURL: interaction.user.avatarURL() })
-								.setTitle('📨 Send a message to my Wii')
-								.setDescription('Allows you to send a message to my Wii to read on stream! ***All message requests will have to be approved by moderators before they go through!***')
-								.addFields(
-									{ name: 'Cost', value: '1000' },
-								);
-
+							if (!pending.item1[interaction.user.id]) {
+								embed = new EmbedBuilder()
+									.setColor('Blue')
+									.setAuthor({ name: `${interaction.user.username}, you have ${bal} ProCraft Points`, iconURL: interaction.user.avatarURL() })
+									.setTitle('📨 Send a message to my Wii')
+									.setDescription('Allows you to send a message to my Wii to read on stream! ***All message requests will have to be approved by moderators before they go through!***')
+									.addFields(
+										{ name: 'Cost', value: '1000' },
+									);
+							} else {
+								embed = new EmbedBuilder()
+									.setColor('Blue')
+									.setAuthor({ name: `${interaction.user.username}, you have ${bal} ProCraft Points`, iconURL: interaction.user.avatarURL() })
+									.setTitle('📨 Send a message to my Wii')
+									.setDescription('Allows you to send a message to my Wii to read on stream! ***All message requests will have to be approved by moderators before they go through!***')
+									.addFields(
+										{ name: 'Cost', value: '1000' },
+										{ name: '‼️ You already have a message request open!', value: 'If you would like to remove this request, or believe it is in error, contact ProCraftGamin' },
+									);
+							}
 							row = new ActionRowBuilder()
 								.addComponents(
 									new ButtonBuilder()
@@ -75,7 +86,7 @@ module.exports = {
 										.setStyle(ButtonStyle.Success)
 										.setLabel('🛒 Purchase')
 										.setCustomId('c|purchase')
-										.setDisabled(bal < 1000),
+										.setDisabled(bal < 1000 || pending.item1[interaction.user.id] != null),
 								);
 							await c.deferUpdate();
 							await interaction.editReply({ embeds: [embed], components: [row] });
@@ -99,12 +110,12 @@ module.exports = {
 										embed = new EmbedBuilder()
 											.setColor('Blue')
 											.setTitle('Send what you would like to send to my Wii!')
-											.setDescription('• *Please remember to keep your message within server and stream rules* \n• *All messages will be reviewed by moderators before being sent*\n• *No points will be removed until your request is accepted by moderators*');
+											.setDescription('• *Please remember to keep your message within server and stream rules* \n• *175 characters max*\n• *All messages will be reviewed by moderators before being sent*\n• *No points will be removed until your request is accepted by moderators*');
 
 										try {
 											await interaction.user.send({ embeds: [embed] }).then(dm => {
-												const mFilter = (f) => f.user.id == interaction.user.id;
-												const mCollector = dm.channel.createMessageCollector({ mFilter, time: 900000 });
+												const mFilter = (f) => f.author.id == interaction.user.id && f.content.length <= 175;
+												const mCollector = dm.channel.createMessageCollector({ filter: mFilter, time: 900000 });
 
 												embed = new EmbedBuilder()
 													.setColor('DarkRed')
@@ -113,40 +124,42 @@ module.exports = {
 												interaction.editReply({ embeds: [embed], components: [] });
 
 												mCollector.on('collect', async c3 => {
-													pending.item1[interaction.user.id] = c3.content;
-													fs.writeFileSync('data/pending requests.json', await JSON.stringify(pending, null, 2));
-													embed = new EmbedBuilder()
-														.setColor('DarkGreen')
-														.setAuthor({ name: `${interaction.user.username} has requested to send "${c3.content}" to ProCraftGamin's Wii`, iconURL: interaction.user.avatarURL() });
+													if (!c3.content.length <= 150) {
+														pending.item1[interaction.user.id] = c3.content;
+														fs.writeFileSync('data/pending requests.json', await JSON.stringify(pending, null, 2));
+														embed = new EmbedBuilder()
+															.setColor('DarkGreen')
+															.setAuthor({ name: `${interaction.user.username} has requested to send "${c3.content}" to ProCraftGamin's Wii`, iconURL: interaction.user.avatarURL() });
 
-													row = new ActionRowBuilder()
-														.addComponents(
-															new ButtonBuilder()
-																.setCustomId(`m|msg|a|${interaction.user.id}`)
-																.setStyle(ButtonStyle.Success)
-																.setLabel('Approve'),
-														)
-														.addComponents(
-															new ButtonBuilder()
-																.setCustomId(`m|msg|d|${interaction.user.id}`)
-																.setStyle(ButtonStyle.Danger)
-																.setLabel('Deny'),
-														);
-													interaction.client.channels.cache.get(moderatorChannel).send({ embeds: [embed], components: [row] });
+														row = new ActionRowBuilder()
+															.addComponents(
+																new ButtonBuilder()
+																	.setCustomId(`m|msg|a|${interaction.user.id}`)
+																	.setStyle(ButtonStyle.Success)
+																	.setLabel('Approve'),
+															)
+															.addComponents(
+																new ButtonBuilder()
+																	.setCustomId(`m|msg|d|${interaction.user.id}`)
+																	.setStyle(ButtonStyle.Danger)
+																	.setLabel('Deny'),
+															);
+														interaction.client.channels.cache.get(moderatorChannel).send({ embeds: [embed], components: [row] });
 
-													embed = new EmbedBuilder()
-														.setColor('Blue')
-														.setTitle('Your request has been sent to moderators. It may take an hour or two for it to be reviewed.');
+														embed = new EmbedBuilder()
+															.setColor('Blue')
+															.setTitle('Your request has been sent to moderators. It may take an hour or two for it to be reviewed.');
 
-													dm.channel.send({ embeds: [embed] });
-													mCollector.stop();
-													interaction.deleteReply();
+														dm.channel.send({ embeds: [embed] });
+														mCollector.stop();
+														interaction.deleteReply();
+													}
 												});
 											});
 										} catch (error) {
 											await interaction.editReply({ embeds: [embed], components: [] }).then(m2 => {
-												const mFilter = (f) => f.user.id == interaction.user.id;
-												const mCollector = m2.channel.createMessageCollector({ mFilter, time: 900000 });
+												const mFilter = (f) => f.author.id == interaction.user.id && f.content.length <= 175;
+												const mCollector = m2.channel.createMessageCollector({ filter: mFilter, time: 900000 });
 
 												mCollector.on('collect', async c3 => {
 													pending.item1[interaction.user.id] = c3.content;
