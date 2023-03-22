@@ -1,5 +1,6 @@
+/* eslint-disable no-case-declarations */
 const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { getBal } = require('../../data/arcade utils');
+const { getBal, removeBal } = require('../../data/arcade utils');
 const { moderatorChannel } = require('../../config.json');
 const fs = require('fs');
 
@@ -56,13 +57,18 @@ module.exports = {
 									description: 'Sends a message to my Wii to be read on stream!',
 									value: 'item1',
 								},
+								{
+									label: '🌱 Touch grass (10,000 Points)',
+									description: 'i send you a video of me touching grass (IMPOSSIBLE)',
+									value: 'item2',
+								},
 							]),
 					);
 
 				// send the embed to the user then create a collector for the select menu
 				await interaction.editReply({ content: '', embeds: [embed], components: [menu] }).then(message => {
 					let filter = (f) => f.isStringSelectMenu() && f.user.id == interaction.user.id;
-					let collector = message.createMessageComponentCollector({ filter, time: 900000 });
+					const collector = message.createMessageComponentCollector({ filter, time: 900000 });
 
 					// when someone presses a button
 					collector.on('collect', async (c) => {
@@ -119,10 +125,10 @@ module.exports = {
 
 							// create filter and collector for message buttons
 							filter = (f) => f.isButton() && f.user.id == interaction.user.id;
-							collector = message.createMessageComponentCollector({ filter, time: 900000 });
+							const collector1 = message.createMessageComponentCollector({ filter, time: 900000 });
 
 							// when a button is pressed
-							collector.on('collect', async (c2) => {
+							collector1.on('collect', async (c2) => {
 
 								// defer update so the button press is actually recognized
 								c2.deferUpdate();
@@ -267,6 +273,75 @@ module.exports = {
 
 									break;
 								}
+								collector1.stop();
+							});
+							break;
+
+						case 'item2':
+							embed = new EmbedBuilder()
+								.setColor('Blue')
+								.setAuthor({ name: `${interaction.user.username}, you have ${bal} ProCraft Points`, iconURL: interaction.user.avatarURL() })
+								.setTitle('🌱 Touch Grass')
+								.setDescription('Force me to send you a video of me going outside and touching grass');
+
+							// if the user doesn't already have a request open
+
+							embed.addFields(
+								{ name: 'Cost', value: '10,000' },
+							);
+
+							// create buttons for going back and purchasing
+							row = new ActionRowBuilder()
+								.addComponents(
+									new ButtonBuilder()
+										.setStyle(ButtonStyle.Primary)
+										.setLabel('🔙 Back')
+										.setCustomId('c|back'),
+								)
+								.addComponents(
+									new ButtonBuilder()
+										.setStyle(ButtonStyle.Success)
+										.setLabel('🛒 Purchase')
+										.setCustomId('c|purchase')
+										.setDisabled(bal < 10000),
+								);
+
+							// defer update so the button press is actually recognized
+							await c.deferUpdate();
+
+							// edit message and stop the collector for the menu
+							await interaction.editReply({ embeds: [embed], components: [row] });
+							collector.stop();
+
+							// create filter and collector for message buttons
+							filter = (f) => f.isButton() && f.user.id == interaction.user.id;
+							const collector2 = message.createMessageComponentCollector({ filter, time: 900000 });
+
+							// when a button is pressed
+							collector2.on('collect', async (c3) => {
+								collector2.stop();
+								switch (c3.customId) {
+
+								case 'c|back':
+									console.log('world');
+									execute();
+									break;
+
+								case 'c|purchase':
+									console.log('hello');
+									removeBal(interaction.user.id, 10000);
+									console.log('go outside bozo');
+									interaction.client.users.cache.get('775420795861205013').send(`${interaction.user.username} wants you to touch grass`);
+									embed = new EmbedBuilder()
+										.setColor('DarkGreen')
+										.setAuthor({ name: 'ProCraft has been notified to touch grass.' })
+										.setDescription('You should recieve the video within a day, and if you don\'t then please DM ProCraftGamin');
+
+									await interaction.followUp({ embeds: [embed], components: [], ephemeral: true });
+									await interaction.deleteReply();
+
+								}
+
 							});
 							break;
 						}
