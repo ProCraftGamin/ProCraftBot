@@ -83,7 +83,7 @@ const unscrambleGame = async (client) => {
 	const a = client.channels.cache.get(arcadeId);
 	a.send({ embeds: [initalEmbed] }).then(interaction => {
 		const filter = m => m.content.toLowerCase().replace(' ', '') === (file[filePos].toLowerCase().replace(' ', ''));
-		const collector = interaction.channel.createMessageCollector({ filter, time: 900000 });
+		const collector = interaction.channel.createMessageCollector({ filter, time: 3600000 });
 
 		collector.on('collect', async m => {
 			const status = addBal(m.author.id, amount);
@@ -137,7 +137,7 @@ const unscrambleGame = async (client) => {
 						messageCount = await interaction.channel.messages.fetch();
 					}
 				}
-				await wait(3600000);
+				await wait(1800000);
 				unscrambleGame(client);
 			}
 		});
