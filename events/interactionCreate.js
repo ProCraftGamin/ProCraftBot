@@ -4,9 +4,11 @@
 /* eslint-disable brace-style */
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const wait = require('node:timers/promises').setTimeout;
+const { logChannel } = require('../config.json');
 const { sendToWii } = require('../data/private functions.js');
 const { removeBal } = require('../data/arcade utils.js');
 const fs = require('fs');
+let logEmbed = '';
 
 module.exports = {
 	name: 'interactionCreate',
@@ -109,6 +111,10 @@ module.exports = {
 									await message.delete();
 								});
 							}
+							logEmbed = new EmbedBuilder()
+								.setColor('DarkGreen')
+								.setAuthor({ iconURL: interaction.user.displayAvatarURL(), name: interaction.user.username })
+								.setDescription(`Accepted ${gMember.user.username}'s request to change their nickname to *"${buttonIdSplit[4]}"*`);
 
 						} else if (buttonIdSplit[2].toLowerCase() == 'd') {
 							const returnEmbed = new EmbedBuilder()
@@ -124,9 +130,13 @@ module.exports = {
 								});
 
 							}
+							logEmbed = new EmbedBuilder()
+								.setColor('DarkRed')
+								.setAuthor({ iconURL: interaction.user.displayAvatarURL(), name: interaction.user.username })
+								.setDescription(`Denied ${gMember.user.username}'s request to change their nickname to *"${buttonIdSplit[4]}"*`);
 
 						}
-
+						await interaction.client.channels.cache.get(logChannel).send({ embeds: [logEmbed] });
 						break;
 
 					case 'msg':
@@ -151,6 +161,10 @@ module.exports = {
 								}
 								removeBal(gm.id, 1000);
 								sendToWii(requests.item1[gm.user.id], gm.user);
+								logEmbed = new EmbedBuilder()
+									.setColor('DarkGreen')
+									.setAuthor({ iconURL: interaction.user.displayAvatarURL(), name: interaction.user.username })
+									.setDescription(`Approved ${gm.user.username}'s request to send *"${requests.item1[gm.user.id]}"* to Pro's Wii.`);
 								delete requests.item1[gm.user.id];
 								fs.writeFileSync('data/pending requests.json', JSON.stringify(requests, null, 2));
 							} else {
@@ -162,9 +176,15 @@ module.exports = {
 								} catch (error) {
 									console.error(error);
 								}
+								logEmbed = new EmbedBuilder()
+									.setColor('DarkRed')
+									.setAuthor({ iconURL: interaction.user.displayAvatarURL(), name: interaction.user.username })
+									.setDescription(`Denied ${gm.user.username}'s request to send *"${requests.item1[gm.user.id]}"* to Pro's Wii.`);
+
 								delete requests.item1[gm.user.id];
 								fs.writeFileSync('data/pending requests.json', JSON.stringify(requests, null, 2));
 							}
+							await interaction.client.channels.cache.get(logChannel).send({ embeds: [logEmbed] });
 						}
 						break;
 					}

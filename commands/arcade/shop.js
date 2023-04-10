@@ -1,8 +1,9 @@
 /* eslint-disable no-case-declarations */
 const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { getBal, removeBal } = require('../../data/arcade utils');
-const { moderatorChannel } = require('../../config.json');
+const { moderatorChannel, logChannel } = require('../../config.json');
 const fs = require('fs');
+let logEmbed = '';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -146,6 +147,7 @@ module.exports = {
 								// if purchase button was pressed
 								case 'c|purchase':
 
+
 									// if the user doesnt have enough then tell them and go back to main menu
 									if (bal < 1000) {
 										await interaction.followUp({ content: 'I don\'t know how you got this message cause it shouldn\'t be possible, but you don\'t have enough points to purchase this! ||*maybe use an unscrambler like signal and do some words?*||', ephemeral: true });
@@ -153,6 +155,12 @@ module.exports = {
 
 									// if the user does have enough
 									} else {
+										logEmbed = new EmbedBuilder()
+											.setColor('DarkGreen')
+											.setAuthor({ iconURL: interaction.user.displayAvatarURL(), name: interaction.user.username })
+											.setDescription('Purchased **🌱 Touch Grass**');
+
+										await interaction.client.channels.cache.get(logChannel).send({ embeds: [logEmbed] });
 										embed = new EmbedBuilder()
 											.setColor('Blue')
 											.setTitle('Send what you would like to send to my Wii!')
@@ -329,12 +337,10 @@ module.exports = {
 								switch (c3.customId) {
 
 								case 'c|back':
-									console.log('world');
 									execute();
 									break;
 
 								case 'c|purchase':
-									console.log('hello');
 									removeBal(interaction.user.id, 10000);
 									console.log('go outside bozo');
 									interaction.client.users.cache.get('775420795861205013').send(`${interaction.user.username} wants you to touch grass`);
@@ -346,6 +352,12 @@ module.exports = {
 									await interaction.followUp({ embeds: [embed], components: [], ephemeral: true });
 									await interaction.deleteReply();
 
+									logEmbed = new EmbedBuilder()
+										.setColor('DarkGreen')
+										.setAuthor({ iconURL: interaction.user.displayAvatarURL(), name: interaction.user.username })
+										.setDescription('Purchased **🌱 Touch Grass**');
+
+									await interaction.client.channels.cache.get(logChannel).send({ embeds: [logEmbed] });
 								}
 
 							});
