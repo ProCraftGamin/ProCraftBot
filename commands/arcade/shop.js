@@ -349,15 +349,15 @@ module.exports = {
 										.setAuthor({ name: 'ProCraft has been notified to touch grass.' })
 										.setDescription('You should recieve the video within a day, and if you don\'t then please DM ProCraftGamin');
 
-									await interaction.followUp({ embeds: [embed], components: [], ephemeral: true });
-									await interaction.deleteReply();
-
 									logEmbed = new EmbedBuilder()
 										.setColor('DarkGreen')
 										.setAuthor({ iconURL: interaction.user.displayAvatarURL(), name: interaction.user.username })
 										.setDescription('Purchased **🌱 Touch Grass**');
 
 									await interaction.client.channels.cache.get(logChannel).send({ embeds: [logEmbed] });
+
+									await interaction.followUp({ embeds: [embed], components: [], ephemeral: true });
+									await interaction.deleteReply();
 								}
 
 							});

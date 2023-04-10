@@ -3,8 +3,8 @@ const { EmbedBuilder } = require('discord.js');
 const current = new Date();
 const time = current.toLocaleTimeString('en-US');
 
-const giveMemberRole = (member, interaction) => {
-	if (member.roles.cache.some(role => role.name === 'Member')) {
+const giveMemberRole = (interaction) => {
+	if (interaction.member.roles.cache.some(role => role.name === 'Member')) {
 		const embed = new EmbedBuilder()
 			.setColor('Red')
 			.setTitle('You\'ve already agreed to the rules!')
@@ -12,7 +12,7 @@ const giveMemberRole = (member, interaction) => {
 		interaction.reply({ embeds: [embed], ephemeral: true });
 	} else {
 		const role = '958250712125554699';
-		member.roles.add(role);
+		interaction.member.roles.add(role);
 		const embed = new EmbedBuilder()
 			.setColor('Blue')
 			.setTitle('Thank you for agreeing to the rules!')
