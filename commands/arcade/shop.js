@@ -284,11 +284,17 @@ module.exports = {
 								.setTitle('🌱 Touch Grass')
 								.setDescription('Force me to send you a video of me going outside and touching grass');
 
-							// if the user doesn't already have a request open
+							if (pending.item1[interaction.user.id] == null) {
+								embed.addFields(
+									{ name: 'Cost', value: '10,000' },
+								);
+							} else {
+								embed.addFields(
+									{ name: 'Cost', value: '10,000' },
+									{ name: '‼️ You have a request open for another item!', value: 'Please wait for it to go through first!' },
+								);
+							}
 
-							embed.addFields(
-								{ name: 'Cost', value: '10,000' },
-							);
 
 							// create buttons for going back and purchasing
 							row = new ActionRowBuilder()
@@ -303,7 +309,7 @@ module.exports = {
 										.setStyle(ButtonStyle.Success)
 										.setLabel('🛒 Purchase')
 										.setCustomId('c|purchase')
-										.setDisabled(bal < 10000),
+										.setDisabled(bal < 10000 || pending.item1[interaction.user.id] != null),
 								);
 
 							// defer update so the button press is actually recognized
