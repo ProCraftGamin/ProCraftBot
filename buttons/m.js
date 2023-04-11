@@ -71,7 +71,7 @@ const moderatorActions = async (interaction) => {
 			interaction.reply({ content: 'You cannot approve/deny your own request!', ephemeral: true });
 		} else {
 
-			const requestsJson = fs.readFileSync('data/pending requests.json');
+			const requestsJson = fs.readFileSync('data/pending.json');
 			const requests = JSON.parse(requestsJson);
 			interaction.message.delete();
 			interaction.deferUpdate();
@@ -81,25 +81,25 @@ const moderatorActions = async (interaction) => {
 				const returnEmbed = new EmbedBuilder()
 					.setColor('DarkGreen')
 					.setTitle('Moderators have approved your request to send')
-					.setDescription(`"${requests.item1[gm.user.id]}" to Pro's Wii! It should be sent within the next 24 hours.`);
+					.setDescription(`"${requests.shop.item1[gm.user.id]}" to Pro's Wii! It should be sent within the next 24 hours.`);
 				try {
 					await gm.user.send({ embeds: [returnEmbed] });
 				} catch (error) {
 					console.error(error);
 				}
 				removeBal(gm.id, 1000);
-				sendToWii(requests.item1[gm.user.id], gm.user);
+				sendToWii(requests.shop.item1[gm.user.id], gm.user);
 				logEmbed = new EmbedBuilder()
 					.setColor('DarkGreen')
 					.setAuthor({ iconURL: interaction.user.displayAvatarURL(), name: interaction.user.username })
-					.setDescription(`Approved ${gm.user.username}'s request to send *"${requests.item1[gm.user.id]}"* to Pro's Wii.`);
-				delete requests.item1[gm.user.id];
-				fs.writeFileSync('data/pending requests.json', JSON.stringify(requests, null, 2));
+					.setDescription(`Approved ${gm.user.username}'s request to send *"${requests.shop.item1[gm.user.id]}"* to Pro's Wii.`);
+				delete requests.shop.item1[gm.user.id];
+				fs.writeFileSync('data/pending.json', JSON.stringify(requests, null, 2));
 			} else {
 				const returnEmbed = new EmbedBuilder()
 					.setColor('DarkRed')
 					.setTitle('Moderators have denied your request to send')
-					.setDescription(`"${requests.item1[gm.user.id]}" to Pro's Wii.`);
+					.setDescription(`"${requests.shop.item1[gm.user.id]}" to Pro's Wii.`);
 				try {
 					await gm.user.send({ embeds: [returnEmbed] });
 				} catch (error) {
@@ -108,10 +108,10 @@ const moderatorActions = async (interaction) => {
 				logEmbed = new EmbedBuilder()
 					.setColor('DarkRed')
 					.setAuthor({ iconURL: interaction.user.displayAvatarURL(), name: interaction.user.username })
-					.setDescription(`Denied ${gm.user.username}'s request to send *"${requests.item1[gm.user.id]}"* to Pro's Wii.`);
+					.setDescription(`Denied ${gm.user.username}'s request to send *"${requests.shop.item1[gm.user.id]}"* to Pro's Wii.`);
 
-				delete requests.item1[gm.user.id];
-				fs.writeFileSync('data/pending requests.json', JSON.stringify(requests, null, 2));
+				delete requests.shop.item1[gm.user.id];
+				fs.writeFileSync('data/pending.json', JSON.stringify(requests, null, 2));
 			}
 			await interaction.client.channels.cache.get(logChannel).send({ embeds: [logEmbed] });
 		}

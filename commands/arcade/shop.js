@@ -31,7 +31,7 @@ module.exports = {
 			// create a function that contains everything so its easy to restart
 			const execute = async () => {
 				// parse json for pending requests
-				const pendingJson = fs.readFileSync('data/pending requests.json');
+				const pendingJson = fs.readFileSync('data/pending.json');
 				const pending = JSON.parse(pendingJson);
 
 				// update user's balance
@@ -90,7 +90,7 @@ module.exports = {
 								.setDescription('Allows you to send a message to my Wii to read on stream! ***All message requests will have to be approved by moderators before they go through!***');
 
 							// if the user doesn't already have a request open
-							if (!pending.item1[interaction.user.id]) {
+							if (!pending.shop.item1[interaction.user.id]) {
 								embed.addFields(
 									{ name: 'Cost', value: '1000' },
 								);
@@ -114,7 +114,7 @@ module.exports = {
 										.setStyle(ButtonStyle.Success)
 										.setLabel('🛒 Purchase')
 										.setCustomId('c|purchase')
-										.setDisabled(bal < 1000 || pending.item1[interaction.user.id] != null),
+										.setDisabled(bal < 1000 || pending.shop.item1[interaction.user.id] != null),
 								);
 
 							// defer update so the button press is actually recognized
@@ -180,8 +180,8 @@ module.exports = {
 												mCollector.on('collect', async c3 => {
 
 													// add to pending json and overwrite
-													pending.item1[interaction.user.id] = c3.content;
-													fs.writeFileSync('data/pending requests.json', await JSON.stringify(pending, null, 2));
+													pending.shop.item1[interaction.user.id] = c3.content;
+													fs.writeFileSync('data/pending.json', await JSON.stringify(pending, null, 2));
 
 													// create embed and row for moderators
 													embed = new EmbedBuilder()
@@ -234,8 +234,8 @@ module.exports = {
 												mCollector.on('collect', async c3 => {
 
 													// add to pending json and overwrite
-													pending.item1[interaction.user.id] = c3.content;
-													fs.writeFileSync('data/pending requests.json', await JSON.stringify(pending, null, 2));
+													pending.shop.item1[interaction.user.id] = c3.content;
+													fs.writeFileSync('data/pending.json', await JSON.stringify(pending, null, 2));
 
 													// create moderator embed and row
 													embed = new EmbedBuilder()
@@ -287,7 +287,7 @@ module.exports = {
 								.setTitle('🌱 Touch Grass')
 								.setDescription('Force me to send you a video of me going outside and touching grass');
 
-							if (pending.item1[interaction.user.id] == null) {
+							if (pending.shop.item1[interaction.user.id] == null) {
 								embed.addFields(
 									{ name: 'Cost', value: '10,000' },
 								);
@@ -312,7 +312,7 @@ module.exports = {
 										.setStyle(ButtonStyle.Success)
 										.setLabel('🛒 Purchase')
 										.setCustomId('c|purchase')
-										.setDisabled(bal < 10000 || pending.item1[interaction.user.id] != null),
+										.setDisabled(bal < 10000 || pending.shop.item1[interaction.user.id] != null),
 								);
 
 							// defer update so the button press is actually recognized
