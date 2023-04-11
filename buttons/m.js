@@ -80,7 +80,8 @@ const moderatorActions = async (interaction) => {
 			if (buttonIdSplit[2] == 'a') {
 				const returnEmbed = new EmbedBuilder()
 					.setColor('DarkGreen')
-					.setTitle(`Moderators have approved your request to send "${requests.item1[gm.user.id]}" to Pro's Wii! It should be sent within the next 24 hours.`);
+					.setTitle('Moderators have approved your request to send')
+					.setDescription(`"${requests.item1[gm.user.id]}" to Pro's Wii! It should be sent within the next 24 hours.`);
 				try {
 					await gm.user.send({ embeds: [returnEmbed] });
 				} catch (error) {
@@ -97,7 +98,8 @@ const moderatorActions = async (interaction) => {
 			} else {
 				const returnEmbed = new EmbedBuilder()
 					.setColor('DarkRed')
-					.setTitle(`Moderators have denied your request to send "${requests.item1[gm.user.id]}" to Pro's Wii.`);
+					.setTitle('Moderators have denied your request to send')
+					.setDescription(`"${requests.item1[gm.user.id]}" to Pro's Wii.`);
 				try {
 					await gm.user.send({ embeds: [returnEmbed] });
 				} catch (error) {

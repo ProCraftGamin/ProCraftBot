@@ -155,16 +155,10 @@ module.exports = {
 
 									// if the user does have enough
 									} else {
-										logEmbed = new EmbedBuilder()
-											.setColor('DarkGreen')
-											.setAuthor({ iconURL: interaction.user.displayAvatarURL(), name: interaction.user.username })
-											.setDescription('Purchased **🌱 Touch Grass**');
-
-										await interaction.client.channels.cache.get(logChannel).send({ embeds: [logEmbed] });
 										embed = new EmbedBuilder()
 											.setColor('Blue')
 											.setTitle('Send what you would like to send to my Wii!')
-											.setDescription('• *Please remember to keep your message within server and stream rules* \n• *175 characters max*\n• *All messages will be reviewed by moderators before being sent*\n• *No points will be removed until your request is accepted by moderators*');
+											.setDescription('• *Please remember to keep your message within server and stream rules*\n• *All messages will be reviewed by moderators before being sent*\n• *No points will be removed until your request is accepted by moderators*');
 
 										// try sending to dms
 										try {
@@ -172,7 +166,7 @@ module.exports = {
 											await interaction.user.send({ embeds: [embed] }).then(dm => {
 
 												// create a message collector
-												const mFilter = (f) => f.author.id == interaction.user.id && f.content.length <= 175;
+												const mFilter = (f) => f.author.id == interaction.user.id;
 												const mCollector = dm.channel.createMessageCollector({ filter: mFilter, time: 900000 });
 
 												// create an embed telling the user to check DMS and edit message
@@ -192,7 +186,8 @@ module.exports = {
 													// create embed and row for moderators
 													embed = new EmbedBuilder()
 														.setColor('DarkGreen')
-														.setAuthor({ name: `${interaction.user.username} has requested to send "${c3.content}" to ProCraftGamin's Wii`, iconURL: interaction.user.avatarURL() });
+														.setAuthor({ name: interaction.user.username, iconURL: interaction.user.avatarURL() })
+														.setDescription(`Requested to send *${c3.content}* to Pro's Wii`);
 
 													row = new ActionRowBuilder()
 														.addComponents(
