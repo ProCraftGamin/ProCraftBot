@@ -7,7 +7,7 @@ module.exports = {
 	once: true,
 	execute(client) {
 		console.log(`Ready! Logged in as ${client.user.tag}`);
-		client.user.setActivity('for /help || V2.05', { type: ActivityType.Watching });
+		client.user.setActivity('for /help', { type: ActivityType.Watching });
 		generalFunctions.unscrambleGame(client);
 		generalFunctions.cmdFunctions(client);
 		twitchFunctions.liveCheck(client);
