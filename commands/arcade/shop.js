@@ -40,7 +40,7 @@ module.exports = {
 				// create embed and select menu
 				let embed = new EmbedBuilder()
 					.setColor('Blue')
-					.setAuthor({ name: `${interaction.user.username}, you have ${bal} ProCraft Points`, iconURL: interaction.user.avatarURL() })
+					.setAuthor({ name: `${interaction.user.username}, you have ${bal} ProCraft Points`, iconURL: interaction.user.displayAvatarURL() })
 					.setTitle('Welcome to the ProCraft Points shop!')
 					.setDescription('Select something from the menu below to learn more about an item!');
 
@@ -73,6 +73,7 @@ module.exports = {
 
 					// when someone presses a button
 					collector.on('collect', async (c) => {
+						c.deferUpdate();
 
 						// dummy variable
 						let row = '';
@@ -85,7 +86,7 @@ module.exports = {
 
 							embed = new EmbedBuilder()
 								.setColor('Blue')
-								.setAuthor({ name: `${interaction.user.username}, you have ${bal} ProCraft Points`, iconURL: interaction.user.avatarURL() })
+								.setAuthor({ name: `${interaction.user.username}, you have ${bal} ProCraft Points`, iconURL: interaction.user.displayAvatarURL() })
 								.setTitle('📨 Send a message to my Wii')
 								.setDescription('Allows you to send a message to my Wii to read on stream! ***All message requests will have to be approved by moderators before they go through!***');
 
@@ -116,9 +117,6 @@ module.exports = {
 										.setCustomId('c|purchase')
 										.setDisabled(bal < 1000 || pending.shop.item1[interaction.user.id] != null),
 								);
-
-							// defer update so the button press is actually recognized
-							await c.deferUpdate();
 
 							// edit message and stop the collector for the menu
 							await interaction.editReply({ embeds: [embed], components: [row] });
@@ -178,6 +176,7 @@ module.exports = {
 
 												// when user sends a message in DMS thats shorter than 175 characters
 												mCollector.on('collect', async c3 => {
+													c3.deferUpdate();
 
 													// add to pending json and overwrite
 													pending.shop.item1[interaction.user.id] = c3.content;
@@ -186,7 +185,7 @@ module.exports = {
 													// create embed and row for moderators
 													embed = new EmbedBuilder()
 														.setColor('DarkGreen')
-														.setAuthor({ name: interaction.user.username, iconURL: interaction.user.avatarURL() })
+														.setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })
 														.setDescription(`Requested to send *${c3.content}* to Pro's Wii`);
 
 													row = new ActionRowBuilder()
@@ -204,7 +203,7 @@ module.exports = {
 														);
 
 													// send to moderator channel
-													interaction.client.channels.cache.get(moderatorChannel).send({ embeds: [embed], components: [row] });
+													interaction.client.channels.fetch(moderatorChannel).send({ embeds: [embed], components: [row] });
 
 													// create embed for user saying its been send to moderators
 													embed = new EmbedBuilder()
@@ -232,6 +231,7 @@ module.exports = {
 
 												// once the user types a message in the same channel
 												mCollector.on('collect', async c3 => {
+													c3.deferUpdate();
 
 													// add to pending json and overwrite
 													pending.shop.item1[interaction.user.id] = c3.content;
@@ -240,7 +240,7 @@ module.exports = {
 													// create moderator embed and row
 													embed = new EmbedBuilder()
 														.setColor('DarkGreen')
-														.setAuthor({ name: `${interaction.user.username} has requested to send "${c3.content}" to ProCraftGamin's Wii`, iconURL: interaction.user.avatarURL() });
+														.setAuthor({ name: `${interaction.user.username} has requested to send "${c3.content}" to ProCraftGamin's Wii`, iconURL: interaction.user.displayAvatarURL() });
 
 													row = new ActionRowBuilder()
 														.addComponents(
@@ -257,7 +257,7 @@ module.exports = {
 														);
 
 													// senwd to moderator channel and delete message the user sent from the channel
-													interaction.client.channels.cache.get(moderatorChannel).send({ embeds: [embed], components: [row] });
+													interaction.client.channels.fetch(moderatorChannel).send({ embeds: [embed], components: [row] });
 													c3.delete();
 
 
@@ -283,7 +283,7 @@ module.exports = {
 						case 'item2':
 							embed = new EmbedBuilder()
 								.setColor('Blue')
-								.setAuthor({ name: `${interaction.user.username}, you have ${bal} ProCraft Points`, iconURL: interaction.user.avatarURL() })
+								.setAuthor({ name: `${interaction.user.username}, you have ${bal} ProCraft Points`, iconURL: interaction.user.displayAvatarURL() })
 								.setTitle('🌱 Touch Grass')
 								.setDescription('Force me to send you a video of me going outside and touching grass');
 
@@ -315,9 +315,6 @@ module.exports = {
 										.setDisabled(bal < 10000 || pending.shop.item1[interaction.user.id] != null),
 								);
 
-							// defer update so the button press is actually recognized
-							await c.deferUpdate();
-
 							// edit message and stop the collector for the menu
 							await interaction.editReply({ embeds: [embed], components: [row] });
 							collector.stop();
@@ -329,6 +326,7 @@ module.exports = {
 							// when a button is pressed
 							collector2.on('collect', async (c3) => {
 								collector2.stop();
+								c3.deferUpdate();
 								switch (c3.customId) {
 
 								case 'c|back':
@@ -338,7 +336,7 @@ module.exports = {
 								case 'c|purchase':
 									removeBal(interaction.user.id, 10000);
 									console.log('go outside bozo');
-									interaction.client.users.cache.get('775420795861205013').send(`${interaction.user.username} wants you to touch grass`);
+									interaction.client.users.fetch('775420795861205013').send(`${interaction.user.username} wants you to touch grass`);
 									embed = new EmbedBuilder()
 										.setColor('DarkGreen')
 										.setAuthor({ name: 'ProCraft has been notified to touch grass.' })
@@ -349,7 +347,7 @@ module.exports = {
 										.setAuthor({ iconURL: interaction.user.displayAvatarURL(), name: interaction.user.username })
 										.setDescription('Purchased **🌱 Touch Grass**');
 
-									await interaction.client.channels.cache.get(logChannel).send({ embeds: [logEmbed] });
+									await interaction.client.channels.fetch(logChannel).send({ embeds: [logEmbed] });
 
 									await interaction.followUp({ embeds: [embed], components: [], ephemeral: true });
 									await interaction.deleteReply();

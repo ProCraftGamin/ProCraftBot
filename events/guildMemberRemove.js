@@ -6,8 +6,8 @@ module.exports = {
 	async execute(GuildMember) {
 		const embed = new EmbedBuilder()
 			.setColor('DarkRed')
-			.setAuthor({ name: `${GuildMember.user.username} left the server.`, iconURL: GuildMember.user.avatarURL() });
+			.setAuthor({ name: `${GuildMember.user.username} left the server.`, iconURL: GuildMember.user.displayAvatarURL() });
 
-		GuildMember.guild.channels.cache.get(welcomeChannel).send({ embeds: [embed] });
+		await GuildMember.guild.channels.fetch(welcomeChannel).send({ embeds: [embed] });
 	},
 };

@@ -11,7 +11,7 @@ module.exports = {
 		const bal = await getBal(interaction.user.id);
 		if (bal) {
 			const embed = new EmbedBuilder()
-				.setAuthor({ name: `${interaction.user.username}, you have ${bal} ProCraft Points in your account.`, iconURL: interaction.user.avatarURL() })
+				.setAuthor({ name: `${interaction.user.username}, you have ${bal} ProCraft Points in your account.`, iconURL: interaction.user.displayAvatarURL() })
 				.setColor('Blue');
 
 			interaction.reply({ embeds: [embed] });

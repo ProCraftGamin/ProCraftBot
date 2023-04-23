@@ -33,7 +33,7 @@ const moderatorActions = async (interaction) => {
 				await gMember.user.send({ embeds: [returnEmbed], components: [watermark] });
 			} catch (error) {
 				console.error(error);
-				await interaction.client.channels.cache.get('1050171560167743648').send({ embeds: [returnEmbed], components: [watermark], content: `<@${buttonIdSplit[3]}>` }).then(async message => {
+				await interaction.client.channels.fetch('1050171560167743648').send({ embeds: [returnEmbed], components: [watermark], content: `<@${buttonIdSplit[3]}>` }).then(async message => {
 					await wait(60000),
 					await message.delete();
 				});
@@ -51,7 +51,7 @@ const moderatorActions = async (interaction) => {
 			try {
 				await gMember.user.send({ embeds: [returnEmbed], components: [watermark] });
 			} catch (error) {
-				await interaction.client.channels.cache.get('1050171560167743648').send({ embeds: [returnEmbed], components: [watermark], content: `<@${buttonIdSplit[3]}>` }).then(async message => {
+				await interaction.client.channels.fetch('1050171560167743648').send({ embeds: [returnEmbed], components: [watermark], content: `<@${buttonIdSplit[3]}>` }).then(async message => {
 					await wait(60000),
 					await message.delete();
 				});
@@ -63,7 +63,7 @@ const moderatorActions = async (interaction) => {
 				.setDescription(`Denied ${gMember.user.username}'s request to change their nickname to *"${buttonIdSplit[4]}"*`);
 
 		}
-		await interaction.client.channels.cache.get(logChannel).send({ embeds: [logEmbed] });
+		await interaction.client.channels.fetch(logChannel).send({ embeds: [logEmbed] });
 		break;
 
 	case 'msg':
@@ -113,7 +113,7 @@ const moderatorActions = async (interaction) => {
 				delete requests.shop.item1[gm.user.id];
 				fs.writeFileSync('data/pending.json', JSON.stringify(requests, null, 2));
 			}
-			await interaction.client.channels.cache.get(logChannel).send({ embeds: [logEmbed] });
+			await interaction.client.channels.fetch(logChannel).send({ embeds: [logEmbed] });
 		}
 	}};
 

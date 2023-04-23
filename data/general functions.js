@@ -18,7 +18,7 @@ const cmdFunctions = (client) => {
 				const inputSplitdummy = input.split('-');
 				const inputSplit = String(inputSplitdummy[1]).split('|');
 				try {
-					const channel = client.channels.cache.get(inputSplit[0]);
+					const channel = await client.channels.fetch(inputSplit[0]);
 					channel.send(inputSplit[1]);
 				} catch (error) {console.error(error);}
 				cmdFunctions();
@@ -28,7 +28,9 @@ const cmdFunctions = (client) => {
 				const inputSplitdummy = input.split('-');
 				const inputSplit = String(inputSplitdummy[1]).split('|');
 
-				client.users.send(inputSplit[0], inputSplit[1]);
+				try {
+					client.users.send(inputSplit[0], inputSplit[1]);
+				} catch (error) {console.error(error);}
 				cmdFunctions();
 			} catch (error) {
 				console.error(error);
@@ -80,7 +82,7 @@ const unscrambleGame = async (client) => {
 		.setTitle(`The first person to unscramble \n"${wordScrambled}" gets ${amount} ProCraft Points!`)
 		.setColor('Blue');
 
-	const a = client.channels.cache.get(arcadeId);
+	const a = await client.channels.fetch(arcadeId);
 	a.send({ embeds: [initalEmbed] }).then(interaction => {
 		const filter = m => m.content.toLowerCase().replace(' ', '') === (file[filePos].toLowerCase().replace(' ', ''));
 		const collector = interaction.channel.createMessageCollector({ filter, time: 3600000 });
@@ -170,7 +172,7 @@ const checkRoles = async (client) => {
 	if (events.first() == null) {
 		eventScheduled = false;
 	}
-	await client.channels.cache.get(logChannel).send({ embeds: [embed] }).then(async message => {
+	await client.channels.fetch(logChannel).send({ embeds: [embed] }).then(async message => {
 
 
 		let returnDescription = '**✅ All members were successfully checked**\n\n';
@@ -202,7 +204,7 @@ const checkRoles = async (client) => {
 					}
 				}
 				if (member.roles.cache.some(R => R.id == roleStructure[category].role) && !userHasCategoryRole) {
-					const roleName = await Guild.roles.cache.get(roleStructure[category].role).name;
+					const roleName = await Guild.roles.fetch(roleStructure[category].role).name;
 					member.roles.remove(roleStructure[category].role);
 					await wait (5000);
 					returnDescription = returnDescription + `❌ Removed the dividing role for **${category}** from **${member.user.username}**, because they did not have a role in the category.\n\n`;

@@ -32,7 +32,7 @@ module.exports = {
 			fs.writeFileSync('C:/Users/procr_sriu2y2/Desktop/Discord bots/ProCraftBot/data/balances.txt', balFileNew);
 
 			const embed = new EmbedBuilder()
-				.setAuthor({ name: `${interaction.user.username}, an account has been opened for you! You've been given 300 ProCraft Points to start out with by the bank!`, iconURL: interaction.user.avatarURL() })
+				.setAuthor({ name: `${interaction.user.username}, an account has been opened for you! You've been given 300 ProCraft Points to start out with by the bank!`, iconURL: interaction.user.displayAvatarURL() })
 				.setColor('DarkGreen');
 
 			interaction.reply({ embeds: [embed] });

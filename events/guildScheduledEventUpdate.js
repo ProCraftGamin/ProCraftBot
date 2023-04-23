@@ -14,7 +14,7 @@ module.exports = {
 				.setDescription(`Join us in ${channelMention(GuildScheduledEvent.channelId)} for some fun!`)
 				.setColor('DarkGreen');
 
-			GuildScheduledEvent.guild.channels.cache.get(eventsChannel).send({ content: roleMention(GuildScheduledEvent.guild.roles.cache.find(role => role.name === GuildScheduledEvent.name).id), embeds: [startedEmbed] }).then(async sentMessage => {
+			await GuildScheduledEvent.guild.channels.fetch(eventsChannel).send({ content: roleMention(GuildScheduledEvent.guild.roles.cache.find(role => role.name === GuildScheduledEvent.name).id), embeds: [startedEmbed] }).then(async sentMessage => {
 				await wait (1000);
 				sentMessage.edit({ content: '', embeds: [startedEmbed] });
 			});
@@ -26,7 +26,7 @@ module.exports = {
 				.setDescription('Thank you for coming!')
 				.setColor('DarkRed');
 
-			GuildScheduledEvent.guild.channels.cache.get(eventsChannel).send({ embeds: [endedEmbed] });
+			await GuildScheduledEvent.guild.channels.fetch(eventsChannel).send({ embeds: [endedEmbed] });
 			GuildScheduledEvent.guild.roles.delete(GuildScheduledEvent.guild.roles.cache.find(role => role.name === GuildScheduledEvent.name).id);
 		}
 

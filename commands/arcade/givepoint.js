@@ -22,7 +22,7 @@ module.exports = {
 			await interaction.reply({ embeds: [embed] });
 		} else {
 			const embed = new EmbedBuilder()
-				.setAuthor({ name: `Successfully gave ${interaction.options.getInteger('amount')} ProCraft Points to ${interaction.options.getUser('user').username}`, iconUrl: interaction.options.getUser('user').avatarURL() })
+				.setAuthor({ name: `Successfully gave ${interaction.options.getInteger('amount')} ProCraft Points to ${interaction.options.getUser('user').username}`, iconUrl: interaction.options.getUser('user').displayAvatarURL() })
 				.setColor('DarkGreen');
 			await interaction.reply({ embeds: [embed] });
 		}

@@ -28,7 +28,7 @@ module.exports = {
 		console.log(`${username} joined the server`);
 
 		// const discrim = GuildMember.user.discriminator;
-		const avatarURL = member.user.avatarURL({ extension: 'png', size: av.size });
+		const avatarURL = member.user.displayAvatarURL({ extension: 'png', size: av.size });
 
 		const canvas = Canvas.createCanvas(dim.width, dim.height);
 		const ctx = canvas.getContext('2d');
@@ -67,7 +67,7 @@ module.exports = {
 		const attachment = canvas.toBuffer();
 
 
-		GuildMember.guild.channels.cache.get(welcomeChannel).send({
+		await GuildMember.guild.channels.fetch(welcomeChannel).send({
 			content: `<@${GuildMember.id}> Welcome to the server!`,
 			files: [attachment],
 
