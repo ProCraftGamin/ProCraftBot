@@ -8,6 +8,7 @@ module.exports = {
 			.setColor('DarkRed')
 			.setAuthor({ name: `${GuildMember.user.username} left the server.`, iconURL: GuildMember.user.displayAvatarURL() });
 
-		await GuildMember.guild.channels.fetch(welcomeChannel).send({ embeds: [embed] });
+		const channel = await GuildMember.guild.channels.fetch(welcomeChannel);
+		await channel.send({ embeds: [embed] });
 	},
 };

@@ -9,7 +9,13 @@ const watermark = new ActionRowBuilder()
 	);
 const giveRole = async (interaction) => {
 	const buttonIdSplit = interaction.customId.split('|');
-	const roleName = await interaction.guild.roles.fetch(buttonIdSplit[1]).name;
+	let roleName = '';
+	try {
+		roleName = await interaction.guild.roles.cache.get(buttonIdSplit[1]).name;
+	} catch (e) {
+		const role = await interaction.guild.roles.fetch(buttonIdSplit[1]);
+		roleName = role.name;
+	}
 	if (interaction.member.roles.cache.some(role => role.id === buttonIdSplit[1])) {
 		interaction.member.roles.remove(buttonIdSplit[1]);
 		interaction.client.users.send(interaction.user, { content: `✅ Successfully removed **${roleName}**`, components: [watermark] });

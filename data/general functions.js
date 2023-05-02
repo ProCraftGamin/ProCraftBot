@@ -172,7 +172,8 @@ const checkRoles = async (client) => {
 	if (events.first() == null) {
 		eventScheduled = false;
 	}
-	await client.channels.fetch(logChannel).send({ embeds: [embed] }).then(async message => {
+	const logsChannel = await client.channels.fetch(logChannel);
+	await logsChannel.send({ embeds: [embed] }).then(async message => {
 
 
 		let returnDescription = '**✅ All members were successfully checked**\n\n';

@@ -9,6 +9,7 @@ module.exports = {
 			.setColor('DarkRed')
 			.setAuthor({ name: `${GuildBan.user.username} was banned. L + Ratio`, iconURL: GuildBan.user.displayAvatarURL() });
 
-		await GuildBan.guild.channels.fetch('958518158359162950').send({ embeds: [embed] });
+		const channel = await GuildBan.guild.channels.fetch('958518158359162950');
+		await channel.send({ embeds: [embed] });
 	},
 };

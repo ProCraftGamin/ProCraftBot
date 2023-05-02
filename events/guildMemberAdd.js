@@ -66,8 +66,8 @@ module.exports = {
 
 		const attachment = canvas.toBuffer();
 
-
-		await GuildMember.guild.channels.fetch(welcomeChannel).send({
+		const channel = await GuildMember.guild.channels.fetch(welcomeChannel);
+		await channel.send({
 			content: `<@${GuildMember.id}> Welcome to the server!`,
 			files: [attachment],
 

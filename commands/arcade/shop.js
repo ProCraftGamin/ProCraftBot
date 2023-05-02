@@ -10,6 +10,7 @@ module.exports = {
 		.setName('shop')
 		.setDescription('Spend your ProCraft Points on various things!'),
 	async execute(interaction) {
+		const logsChannel = await interaction.client.channels.fetch(logChannel);
 
 		// defer update to give things time to load
 		await interaction.deferReply({ ephemeral: true });
@@ -336,7 +337,8 @@ module.exports = {
 								case 'c|purchase':
 									removeBal(interaction.user.id, 10000);
 									console.log('go outside bozo');
-									interaction.client.users.fetch('775420795861205013').send(`${interaction.user.username} wants you to touch grass`);
+									const dev = await interaction.client.users.fetch('775420795861205013');
+									await dev.send(`${interaction.user.username} wants you to touch grass`);
 									embed = new EmbedBuilder()
 										.setColor('DarkGreen')
 										.setAuthor({ name: 'ProCraft has been notified to touch grass.' })
@@ -347,7 +349,7 @@ module.exports = {
 										.setAuthor({ iconURL: interaction.user.displayAvatarURL(), name: interaction.user.username })
 										.setDescription('Purchased **🌱 Touch Grass**');
 
-									await interaction.client.channels.fetch(logChannel).send({ embeds: [logEmbed] });
+									await logsChannel.send({ embeds: [logEmbed] });
 
 									await interaction.followUp({ embeds: [embed], components: [], ephemeral: true });
 									await interaction.deleteReply();

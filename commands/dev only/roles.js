@@ -7,6 +7,7 @@ module.exports = {
 		.setDMPermission(false)
 		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 	async execute(interaction) {
+		const roleStructure = require('../../data/role structure');
 
 		const rolesEmbed = new EmbedBuilder()
 			.setColor('Blue')
@@ -16,25 +17,25 @@ module.exports = {
 		const rolesComp = new ActionRowBuilder()
 			.addComponents(
 				new ButtonBuilder()
-					.setCustomId('r|975259875493945344|1048423010857660436')
+					.setCustomId(`r|${roleStructure['pings']['Poll pings']}|${roleStructure['pings']['role']}`)
 					.setLabel('Poll pings')
 					.setStyle(ButtonStyle.Primary),
 			)
 			.addComponents(
 				new ButtonBuilder()
-					.setCustomId('r|1048428131435950150|1048423010857660436')
+					.setCustomId(`r|${roleStructure['pings']['Livestream pings']}|${roleStructure['pings']['role']}`)
 					.setLabel('Livestream pings')
 					.setStyle(ButtonStyle.Primary),
 			)
 			.addComponents(
 				new ButtonBuilder()
-					.setCustomId('r|1048428954358390845|1048423010857660436')
+					.setCustomId(`r|${roleStructure['pings']['Tweet pings']}|${roleStructure['pings']['role']}`)
 					.setLabel('Tweet pings')
 					.setStyle(ButtonStyle.Primary),
 			)
 			.addComponents(
 				new ButtonBuilder()
-					.setCustomId('r|1048429228309364846|1048423010857660436')
+					.setCustomId(`r|${roleStructure['pings']['Video pings']}|${roleStructure['pings']['role']}`)
 					.setLabel('Video pings')
 					.setStyle(ButtonStyle.Primary),
 			);
@@ -47,50 +48,50 @@ module.exports = {
 		const pronounsComp1 = new ActionRowBuilder()
 			.addComponents(
 				new ButtonBuilder()
-					.setCustomId('r|1048440786410278982|1048439348955185242')
+					.setCustomId(`r|${roleStructure['pronouns']['She / Her']}|${roleStructure['pronouns']['role']}`)
 					.setLabel('She / Her')
 					.setStyle(ButtonStyle.Success),
 			)
 			.addComponents(
 				new ButtonBuilder()
-					.setCustomId('r|1050156940422025287|1050333542678265856')
+					.setCustomId(`r|${roleStructure['pronouns']['He / Him']}|${roleStructure['pronouns']['role']}`)
 					.setLabel('He / Him')
 					.setStyle(ButtonStyle.Success),
 			)
 			.addComponents(
 				new ButtonBuilder()
-					.setCustomId('r|1048440930958573658|1048439348955185242')
+					.setCustomId(`r|${roleStructure['pronouns']['She / They']}|${roleStructure['pronouns']['role']}`)
 					.setLabel('She / They')
 					.setStyle(ButtonStyle.Success),
 			)
 			.addComponents(
 				new ButtonBuilder()
-					.setCustomId('r|1048440972574457868|1048439348955185242')
+					.setCustomId(`r|${roleStructure['pronouns']['He / They']}|${roleStructure['pronouns']['role']}`)
 					.setLabel('He / They')
 					.setStyle(ButtonStyle.Success),
 			)
 			.addComponents(
 				new ButtonBuilder()
-					.setCustomId('r|1049006687509557378|1048439348955185242')
+					.setCustomId(`r|${roleStructure['pronouns']['They / Them']}|${roleStructure['pronouns']['role']}`)
 					.setLabel('They / Them')
 					.setStyle(ButtonStyle.Success),
 			);
 		const pronounsComp2 = new ActionRowBuilder()
 			.addComponents(
 				new ButtonBuilder()
-					.setCustomId('r|1048441045060431932|1048439348955185242')
+					.setCustomId(`r|${roleStructure['pronouns']['Any Pronouns']}|${roleStructure['pronouns']['role']}`)
 					.setLabel('Any pronouns')
 					.setStyle(ButtonStyle.Success),
 			)
 			.addComponents(
 				new ButtonBuilder()
-					.setCustomId('r|1048441088991576064|1048439348955185242')
+					.setCustomId(`r|${roleStructure['pronouns']['Ask My Pronouns (Ping In Server)']}|${roleStructure['pronouns']['role']}`)
 					.setLabel('Ask My Pronouns (Ping In Server)')
 					.setStyle(ButtonStyle.Success),
 			)
 			.addComponents(
 				new ButtonBuilder()
-					.setCustomId('r|1048441119861653506|1048439348955185242')
+					.setCustomId(`r|${roleStructure['pronouns']['Ask My Pronouns (DM Me)']}|${roleStructure['pronouns']['role']}`)
 					.setLabel('Ask My Pronouns (DM Me)')
 					.setStyle(ButtonStyle.Success),
 			);

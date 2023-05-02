@@ -49,7 +49,8 @@ module.exports = {
 
 			await interaction.reply({ content: 'Sucessfully created a poll.', ephemeral: true });
 			if (interaction.options.getBoolean('ping')) {
-				await interaction.guild.channels.fetch(pollChannel).send({ content: roleMention('975259875493945344'), embeds: [embed] }).then(async sentMessage => {
+				const channel = await interaction.guild.channels.fetch(pollChannel);
+				await channel.send({ content: roleMention('975259875493945344'), embeds: [embed] }).then(async sentMessage => {
 					sentMessage.react(interaction.options.getString('option-1'));
 					if (interaction.options.getString('option-2')) {
 						sentMessage.react(interaction.options.getString('option-2'));
@@ -58,7 +59,8 @@ module.exports = {
 					sentMessage.edit({ content: '', embeds: [embed] });
 				});
 			} else {
-				await interaction.guild.channels.fetch(pollChannel).send({ embeds: [embed] }).then(sentMessage => {
+				const channel = await interaction.guild.channels.fetch(pollChannel);
+				await channel.send({ embeds: [embed] }).then(sentMessage => {
 					sentMessage.react(interaction.options.getString('option-1'));
 					if (interaction.options.getString('option-2')) {
 						sentMessage.react(interaction.options.getString('option-2'));
