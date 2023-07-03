@@ -77,7 +77,7 @@ const executeGame = async (i, i2) => {
 
 		status = transferBal(i.options.getUser('user').id, i.user.id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.user.username} won the game, but the balance wasn't transferred. **Please send a screenshot of this error6 to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.user.username} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}

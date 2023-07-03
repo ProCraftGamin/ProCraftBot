@@ -61,6 +61,9 @@ const cmdFunctions = (client) => {
 				console.log(`Successfully set the top clip to "${data[0].title}"`);
 			}
 			cmdFunctions();
+		} else {
+			console.log(`Unknown command: ${input}`);
+			cmdFunctions();
 		}
 	});
 };

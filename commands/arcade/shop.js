@@ -177,7 +177,6 @@ module.exports = {
 
 												// when user sends a message in DMS thats shorter than 175 characters
 												mCollector.on('collect', async c3 => {
-													c3.deferUpdate();
 
 													// add to pending json and overwrite
 													pending.shop.item1[interaction.user.id] = c3.content;
@@ -204,7 +203,8 @@ module.exports = {
 														);
 
 													// send to moderator channel
-													interaction.client.channels.fetch(moderatorChannel).send({ embeds: [embed], components: [row] });
+													const channel = await interaction.client.channels.fetch(moderatorChannel);
+													await channel.send({ embeds: [embed], components: [row] });
 
 													// create embed for user saying its been send to moderators
 													embed = new EmbedBuilder()
@@ -232,7 +232,6 @@ module.exports = {
 
 												// once the user types a message in the same channel
 												mCollector.on('collect', async c3 => {
-													c3.deferUpdate();
 
 													// add to pending json and overwrite
 													pending.shop.item1[interaction.user.id] = c3.content;
@@ -258,7 +257,8 @@ module.exports = {
 														);
 
 													// senwd to moderator channel and delete message the user sent from the channel
-													interaction.client.channels.fetch(moderatorChannel).send({ embeds: [embed], components: [row] });
+													const channel = await interaction.client.channels.fetch(moderatorChannel);
+													await channel.send({ embeds: [embed], components: [row] });
 													c3.delete();
 
 

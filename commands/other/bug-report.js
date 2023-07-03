@@ -67,7 +67,8 @@ module.exports = {
 			);
 
 		// send to log channel
-		await interaction.client.channels.cache.get(logChannel).send({ embeds: [embed], components: [row] }).then(message => {
+		const channel = await interaction.client.channels.fetch(logChannel);
+		await channel.send({ embeds: [embed], components: [row] }).then(message => {
 			// save to pending file
 			pendingFile['bug reports'][id] = {
 				'message-id': message.id,

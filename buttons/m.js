@@ -113,7 +113,8 @@ const moderatorActions = async (interaction) => {
 				delete requests.shop.item1[gm.user.id];
 				fs.writeFileSync('data/pending.json', JSON.stringify(requests, null, 2));
 			}
-			await interaction.client.channels.fetch(logChannel).send({ embeds: [logEmbed] });
+			const channel = await interaction.client.channels.fetch(logChannel);
+			await channel.send({ embeds: [logEmbed] });
 		}
 	}};
 
