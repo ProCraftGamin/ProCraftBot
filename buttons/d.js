@@ -2,6 +2,7 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, StringSelec
 const fs = require('fs');
 let row = '';
 const statuses = [ '‼️ Pending', '⏳ In-Progress', '✅ Fixed (Next Update)', '✅ Fixed ', '❌ Unfixible', '✅ Intentional', '❌ Already reported' ];
+const { openTicket } = require('../data/ticket functions');
 const watermark = new ActionRowBuilder()
 	.addComponents(
 		new ButtonBuilder()
@@ -36,7 +37,7 @@ const devActions = async (interaction) => {
 	case 'bug':
 		// switch to find what action is wanted
 		switch (buttonIdSplit[3]) {
-		case 'status': {
+		case 'status':
 
 			// make select menu
 			row = new ActionRowBuilder()
@@ -133,9 +134,16 @@ const devActions = async (interaction) => {
 					}
 				});
 			});
+
+			break;
+		case 'ticket':
+		// eslint-disable-next-line no-case-declarations
+			const id = await openTicket({ userId: pending['bug reports'][buttonIdSplit[2]].user.id, ticket: { title: pending['bug reports'][buttonIdSplit[2]].description, description: pending['bug reports'][buttonIdSplit[2]]['replication-steps'] } }, interaction.client, 'bug', buttonIdSplit[2]);
+			await interaction.followUp({ ephemeral: true, content: `*🎫 Ticket created • <#${id}> *` });
+
+			break;
+
 		}
-		}
-		break;
 	}
 };
 

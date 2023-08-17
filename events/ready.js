@@ -1,6 +1,7 @@
 const { Events, ActivityType } = require('discord.js');
 const generalFunctions = require('../data/general functions.js');
 const twitchFunctions = require('../data/twitch events.js');
+const { deleteTickets } = require('../data/ticket functions.js');
 
 module.exports = {
 	name: Events.ClientReady,
@@ -13,5 +14,7 @@ module.exports = {
 		twitchFunctions.liveCheck(client);
 		setInterval(generalFunctions.checkRoles, 43200000, client);
 		setInterval(twitchFunctions.liveCheck, 30000, client);
+		setInterval(deleteTickets, 8.64e+7, client);
+		deleteTickets(client);
 	},
 };
