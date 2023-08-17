@@ -34,7 +34,7 @@ module.exports = {
 			y:100,
 		};
 		const member = interaction.options.getUser('user');
-		const username = member.username;
+		const username = member.displayName;
 
 		// const discrim = Guilduser.discriminator;
 		const avatarURL = member.displayAvatarURL({ extension: 'png', size: av.size });
@@ -76,7 +76,8 @@ module.exports = {
 		const attachment = canvas.toBuffer();
 
 
-		await interaction.guild.channels.fetch(welcomeChannel).send({
+		const channel = await interaction.guild.channels.fetch(welcomeChannel);
+		channel.send({
 			content: `<@${member.id}> Welcome to the server!`,
 			files: [attachment],
 
