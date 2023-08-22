@@ -18,7 +18,7 @@ const cmdFunctions = (client) => {
 				const inputSplitdummy = input.split('-');
 				const inputSplit = String(inputSplitdummy[1]).split('|');
 				try {
-					const channel = await client.channels.fetch(inputSplit[0]);
+					const channel = client.channels.fetch(inputSplit[0]);
 					channel.send(inputSplit[1]);
 				} catch (error) {console.error(error);}
 				cmdFunctions();
@@ -27,7 +27,7 @@ const cmdFunctions = (client) => {
 			try {
 				const inputSplitdummy = input.split('-');
 				const inputSplit = String(inputSplitdummy[1]).split('|');
-
+				console.log(inputSplit[0]);
 				try {
 					client.users.send(inputSplit[0], inputSplit[1]);
 				} catch (error) {console.error(error);}
@@ -61,9 +61,6 @@ const cmdFunctions = (client) => {
 				console.log(`Successfully set the top clip to "${data[0].title}"`);
 			}
 			cmdFunctions();
-		} else {
-			console.log(`Unknown command: ${input}`);
-			cmdFunctions();
 		}
 	});
 };
@@ -87,19 +84,19 @@ const unscrambleGame = async (client) => {
 
 	const a = await client.channels.fetch(arcadeId);
 	a.send({ embeds: [initalEmbed] }).then(interaction => {
-		const filter = m => m.content.toLowerCase().replace(' ', '') === (file[filePos].toLowerCase().replace(' ', ''));
-		const collector = interaction.channel.createMessageCollector({ filter, time: 3600000 });
+		const filter = m => m.content.toLowerCase().replace(' ', '') === (file[filePos].toLowerCase());
+		const collector = interaction.channel.createMessageCollector({ filter, time: 900000 });
 
 		collector.on('collect', async m => {
 			const status = addBal(m.author.id, amount);
 			if (!status) {
 				const newEmbed = new EmbedBuilder()
-					.setTitle(`${m.author.username} unscrambled "${file[filePos]}" first, but hasnt opened an account yet. Therefore, they were not given the points. Open one with /open-acc!`)
+					.setTitle(`${m.author.username} unscrambled "${m}" first, but hasnt opened an account yet. Therefore, they were not given the points. Open one with /open-acc!`)
 					.setColor('DarkRed');
 				interaction.channel.send({ embeds: [newEmbed] });
 			} else {
 				const newEmbed = new EmbedBuilder()
-					.setTitle(`${m.author.username} unscrambled "${file[filePos]}" first!`)
+					.setTitle(`${m.author.username} unscrambled "${m}" first!`)
 					.setColor('DarkGreen');
 				interaction.channel.send({ embeds: [newEmbed] });
 			}
@@ -111,11 +108,9 @@ const unscrambleGame = async (client) => {
 				console.log(`Clearing #${interaction.channel.name}`);
 				await interaction.channel.bulkDelete(100);
 				let messageCount = await interaction.channel.messages.fetch();
-				while (messageCount.size != 0) {
+				while (!messageCount.size == 0) {
 					await wait(15000);
-					try {
-						interaction.channel.bulkDelete(100);
-					} catch (error) {console.error(error);}
+					interaction.channel.bulkDelete(100);
 					messageCount = await interaction.channel.messages.fetch();
 				}
 			}
@@ -142,7 +137,7 @@ const unscrambleGame = async (client) => {
 						messageCount = await interaction.channel.messages.fetch();
 					}
 				}
-				await wait(1800000);
+				await wait(3600000);
 				unscrambleGame(client);
 			}
 		});
@@ -162,71 +157,60 @@ const scrambleWord = (word) => {
 };
 
 const checkRoles = async (client) => {
-	let embed = new EmbedBuilder()
-		.setTitle('Role checks in progress...')
-		.setColor('DarkRed');
-	let eventScheduled = true;
 	const Guild = await client.guilds.fetch(guildId);
 	const members = await Guild.members.fetch();
 	const memberIds = members.map(user => user.id);
 	const roleStructure = require('../data/role structure');
 	const { logChannel } = require('../config.json');
-	const events = await Guild.scheduledEvents.fetch();
-	if (events.first() == null) {
-		eventScheduled = false;
-	}
-	const logsChannel = await client.channels.fetch(logChannel);
-	await logsChannel.send({ embeds: [embed] }).then(async message => {
+	const logsChannel = client.channels.fetch(logChannel);
 
 
-		let returnDescription = '**✅ All members were successfully checked**\n\n';
+	let returnDescription = '**✅ All members were successfully checked**\n\n';
+	let roleChanged = false;
 
-		// for each user
-		for (let i = 0; i < memberIds.length; i++) {
-			const member = await Guild.members.fetch(memberIds[i]);
-			const userRoles = member.roles.cache.map(role => role.id);
-			if (!eventScheduled && member.roles.cache.some(role => role.id == '1049870120392081518')) {
-				member.roles.remove('1049870120392081518');
-				returnDescription = returnDescription + `❌ Removed the dividing role for **Events** from **${member.user.username}**, because there are no events scheduled.\n\n`;
-			}
-			// for each role the user has
+	// for each user
+	for (let i = 0; i < memberIds.length; i++) {
+		const member = await Guild.members.fetch(memberIds[i]);
+		const userRoles = member.roles.cache.map(role => role.id);
+		// for each role the user has
 
-			// for each category
-			for (const category in roleStructure) {
-				let userHasCategoryRole = false;
-				// for each role in the category
-				for (const role in roleStructure[category]) {
+		// for each category
+		for (const category in roleStructure) {
+			let userHasCategoryRole = false;
+			// for each role in the category
+			for (const role in roleStructure[category]) {
 				// if user has a role in the category that isnt the dividing role check for dividing role and if they dont have it add it
-					if (userRoles.some(r => r == roleStructure[category][role]) && role !== 'role') {
-						userHasCategoryRole = true;
-						if (!member.roles.cache.some(R => R.id == roleStructure[category].role)) {
-							await wait (5000);
-							returnDescription = returnDescription + `➕ Added **${category}** dividing role for **${member.user.username}**\n\n`;
-							member.roles.add(roleStructure[category].role);
-							await wait (5000);
-						}
+				if (userRoles.some(r => r == roleStructure[category][role]) && role !== 'role') {
+					userHasCategoryRole = true;
+					if (!member.roles.cache.some(R => R.id == roleStructure[category].role)) {
+						returnDescription = returnDescription + `➕ Added **${category}** dividing role for **${member.user.username}**\n\n`;
+						member.roles.add(roleStructure[category].role);
+						roleChanged = true;
 					}
 				}
-				if (member.roles.cache.some(R => R.id == roleStructure[category].role) && !userHasCategoryRole) {
-					const roleName = await Guild.roles.fetch(roleStructure[category].role).name;
-					member.roles.remove(roleStructure[category].role);
-					await wait (5000);
-					returnDescription = returnDescription + `❌ Removed the dividing role for **${category}** from **${member.user.username}**, because they did not have a role in the category.\n\n`;
-				}
-
+			}
+			if (member.roles.cache.some(R => R.id == roleStructure[category].role) && !userHasCategoryRole) {
+				const roleName = await Guild.roles.fetch(roleStructure[category].role).name;
+				member.roles.remove(roleStructure[category].role);
+				returnDescription = returnDescription + `❌ Removed the dividing role for **${category}** from **${member.user.username}**, because they did not have a role in the category.\n\n`;
+				roleChanged = true;
 			}
 
-
-			await wait(5000);
 		}
-		embed = new EmbedBuilder()
+
+
+		await wait(5000);
+	}
+	if (roleChanged == true) {
+		const embed = new EmbedBuilder()
 			.setTitle('Role check completed')
 			.setDescription(returnDescription)
 			.setColor('DarkGreen');
-		await message.edit({ embeds: [embed] });
-	});
+		await logsChannel.send({ embeds: [embed] });
+	}
 
 };
+
 
 module.exports = {
 	checkRoles: checkRoles,
