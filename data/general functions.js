@@ -162,7 +162,7 @@ const checkRoles = async (client) => {
 	const memberIds = members.map(user => user.id);
 	const roleStructure = require('../data/role structure');
 	const { logChannel } = require('../config.json');
-	const logsChannel = client.channels.fetch(logChannel);
+	const logsChannel = await client.channels.fetch(logChannel);
 
 
 	let returnDescription = '**✅ All members were successfully checked**\n\n';
