@@ -1,0 +1,91 @@
+{
+  "balances": {
+    "1057200241104912466": 89513,
+    "1075964775504285696": 4575,
+    "785896336583163925": 37035,
+    "1043956095519035493": 77710,
+    "944667721826705489": 8000,
+    "584812997776637963": 10450,
+    "808828916432633876": 5000,
+    "706949972985118731": 28295,
+    "977024037660278796": 68020,
+    "775420795861205013": 13391
+  },
+  "shop": {
+    "item1": {}
+  },
+  "bug reports": {
+    "1": {
+      "message-id": "1095846006693826602",
+      "description": "whopper whopper whopper whopper junior double tripple whopper flame-grilled taste with perfect toppers i rule this day",
+      "replication-steps": "whopper",
+      "status": 4,
+      "user": {
+        "username": "EnderCreep3",
+        "avatar": "https://cdn.discordapp.com/avatars/706949972985118731/b66a80d467e7a006fd9a840ecb97232a.webp",
+        "id": "706949972985118731",
+        "notifications": true
+      }
+    },
+    "2": {
+      "message-id": "1112215376680464385",
+      "description": "testing",
+      "replication-steps": "why do you care",
+      "status": 2,
+      "user": {
+        "username": "ProCraftGamin",
+        "avatar": "https://cdn.discordapp.com/avatars/977024037660278796/36af786e92d45ab9f97f63d068d6b555.webp",
+        "id": "977024037660278796",
+        "notifications": true
+      }
+    }
+  },
+  "tickets": {},
+  "stocks": {
+    "PCB": {
+      "display": "ProCraftBot",
+      "value": 118,
+      "previous": 108,
+      "updateTime": "2023-10-12T20:51:32.413Z",
+      "owners": {
+        "775420795861205013": {
+          "purchaseCost": 108.9,
+          "amount": 1
+        },
+        "785896336583163925": {
+          "purchaseCost": 118.8,
+          "amount": 5
+        }
+      }
+    },
+    "PCD": {
+      "display": "ProCraftDiscord",
+      "value": 210,
+      "previous": 110,
+      "updateTime": "2023-10-13T06:39:17.771Z",
+      "owners": {}
+    },
+    "STRM": {
+      "display": "Stream",
+      "value": 133,
+      "previous": 121,
+      "updateTime": "2023-10-12T07:18:12.006Z",
+      "owners": {
+        "785896336583163925": {
+          "purchaseCost": 110,
+          "amount": 6
+        },
+        "1057200241104912466": {
+          "purchaseCost": 121,
+          "amount": 2
+        },
+        "775420795861205013": {
+          "purchaseCost": 133.1,
+          "amount": 3
+        }
+      }
+    },
+    "channelId": "1161785056675758090",
+    "messageId": "1161785784525930496"
+  }
+}

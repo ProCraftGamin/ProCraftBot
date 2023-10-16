@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 
 /* eslint-disable no-unused-vars */
+const { updateStocks } = require('../../data/arcade functions.js');
 const { Discord, Guild } = require('discord.js');
 const { welcomeChannel } = require('../../config.json');
 const Canvas = require('canvas');
@@ -82,6 +83,7 @@ module.exports = {
 			files: [attachment],
 
 		});
+		updateStocks('PCD', 100, '+', interaction.client);
 
 	},
 };

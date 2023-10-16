@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const { Discord, Guild } = require('discord.js');
 const { welcomeChannel } = require('../config.json');
+const { updateStocks } = require('../data/arcade functions.js');
 const Canvas = require('canvas');
 
 module.exports = {
@@ -24,7 +25,7 @@ module.exports = {
 			y:100,
 		};
 		const member = GuildMember;
-		const username = member.user.username;
+		const username = member.user.displayName;
 		console.log(`${username} joined the server`);
 
 		// const discrim = GuildMember.user.discriminator;
@@ -66,14 +67,14 @@ module.exports = {
 
 		const attachment = canvas.toBuffer();
 
-		try {
-			const channel = await GuildMember.guild.channels.fetch(welcomeChannel);
-			await channel.send({
-				content: `<@${GuildMember.id}> Welcome to the server!`,
-				files: [attachment],
+		const channel = await GuildMember.guild.channels.fetch(welcomeChannel);
+		channel.send({
+			content: `<@${GuildMember.id}> Welcome to the server!`,
+			files: [attachment],
 
-			});
-		} catch { console.error; }
+		});
+
+		updateStocks('PCD', 100, '+', GuildMember.client);
 
 	},
 };

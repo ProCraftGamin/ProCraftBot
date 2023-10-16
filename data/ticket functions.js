@@ -14,7 +14,7 @@ const open = async (data, client, source, id) => {
 	}
 	const guild = await client.guilds.fetch(guildId);
 	const user = await client.users.fetch(data.userId);
-	const pending = require('./pending.json');
+	const pending = require('./data.json');
 
 	embed = new EmbedBuilder()
 		.setColor('Blue')
@@ -108,13 +108,13 @@ const open = async (data, client, source, id) => {
 		message.edit({ content: '' });
 	});
 
-	fs.writeFileSync(path.join(__dirname, '/pending.json'), JSON.stringify(pending, null, 2));
+	fs.writeFileSync(path.join(__dirname, '/data.json'), JSON.stringify(pending, null, 2));
 	return ticket.id;
 };
 
 const close = async (client, ticketId, user) => {
 	const ticket = await client.channels.fetch(ticketId);
-	const pending = require('./pending.json');
+	const pending = require('./data.json');
 
 
 	pending.tickets[ticketId].status = 0;
@@ -130,12 +130,12 @@ const close = async (client, ticketId, user) => {
 
 	await ticket.send({ embeds: [embed] });
 
-	fs.writeFileSync(path.join(__dirname, '/pending.json'), JSON.stringify(pending, null, 2));
+	fs.writeFileSync(path.join(__dirname, '/data.json'), JSON.stringify(pending, null, 2));
 };
 
 const reopen = async (client, ticketId, user) => {
 	const ticket = await client.channels.fetch(ticketId);
-	const pending = require('./pending.json');
+	const pending = require('./data.json');
 
 
 	pending.tickets[ticketId].status = 1;
@@ -151,11 +151,11 @@ const reopen = async (client, ticketId, user) => {
 
 	await ticket.send({ embeds: [embed] });
 
-	fs.writeFileSync(path.join(__dirname, '/pending.json'), JSON.stringify(pending, null, 2));
+	fs.writeFileSync(path.join(__dirname, '/data.json'), JSON.stringify(pending, null, 2));
 };
 
 const deleteTickets = async (client) => {
-	const pendingJson = fs.readFileSync('data/pending.json');
+	const pendingJson = fs.readFileSync('data/data.json');
 	const pendingData = JSON.parse(pendingJson);
 	const deletedTickets = [0, ''];
 
@@ -178,7 +178,7 @@ const deleteTickets = async (client) => {
 			}
 		}
 	}
-	await fs.writeFileSync(path.join(__dirname, '/pending.json'), JSON.stringify(pendingData, null, 2));
+	await fs.writeFileSync(path.join(__dirname, '/data.json'), JSON.stringify(pendingData, null, 2));
 	if (deletedTickets[0] > 0) {
 		embed = new EmbedBuilder()
 			.setTitle('Ticket deletion completed')

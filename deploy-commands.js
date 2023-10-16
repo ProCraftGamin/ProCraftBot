@@ -5,6 +5,7 @@ const fs = require('node:fs');
 const commands = [];
 // Fetch command files from commands directory
 fs.readdirSync('./commands/').forEach((category) => {
+	if (category !== '.DS_Store') {
 	const commandFiles = fs.readdirSync(`./commands/${category}/`).filter(file => file.endsWith('.js'));
 
 	for (const file of commandFiles) {
@@ -13,10 +14,10 @@ fs.readdirSync('./commands/').forEach((category) => {
 		console.log(`Found ${file}.`);
 	}
 
-
+	}
 });
 // Construct and prepare an instance of the REST module
-const rest = new REST({ version: '10' }).setToken(token);
+const rest = new REST({ version: '10', rejectOnRateLimit: true }).setToken(token);
 
 // and deploy your commands!
 (async () => {

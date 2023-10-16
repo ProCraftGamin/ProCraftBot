@@ -16,6 +16,6 @@ module.exports = {
 			await sentMessage.edit({ content: '', embeds: [embed] });
 		});
 		await wait (2500);
-		await GuildScheduledEvent.guild.roles.delete(GuildScheduledEvent.guild.roles.cache.find(role => role.name === GuildScheduledEvent.name).id);
+		GuildScheduledEvent.guild.roles.delete(GuildScheduledEvent.guild.roles.cache.find(role => role.name === GuildScheduledEvent.name).id);
 	},
 };

@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
+const { updateStocks } = require('../data/general functions.js');
 
 module.exports = {
 	name: 'guildBanAdd',
@@ -11,5 +12,7 @@ module.exports = {
 
 		const channel = await GuildBan.guild.channels.fetch('958518158359162950');
 		await channel.send({ embeds: [embed] });
+
+		updateStocks('PCD', 100, '-', GuildBan.client);
 	},
 };

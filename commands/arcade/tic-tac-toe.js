@@ -1,5 +1,5 @@
 const { ActionRowBuilder, EmbedBuilder, SlashCommandBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { getBal, transferBal } = require('../../data/arcade utils.js');
+const { getBal, transferBal } = require('../../data/arcade functions.js');
 const wait = require('node:timers/promises').setTimeout;
 
 let game = {
@@ -70,14 +70,14 @@ const executeGame = async (i, i2) => {
 	switch (true) {
 	case game[1][1].X && game[2][1].X && game[3][1].X:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.user.username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.user.displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.options.getUser('user').id, i.user.id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.user.username} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.user.displayName} won the game, but the balance wasn't transferred. **Please send a screenshot of this error6 to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -140,14 +140,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[1][1].O && game[2][1].O && game[3][1].O:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.options.getUser('user').username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.options.getUser('user').displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.user.id, i.options.getUser('user').id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.options.getUser('user').username} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.options.getUser('user').displayName} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -210,14 +210,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[1][2].X && game[2][2].X && game[3][2].X:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.user.username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.user.displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.options.getUser('user').id, i.user.id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.user.username} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.user.displayName} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -280,14 +280,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[1][2].O && game[2][2].O && game[3][2].O:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.options.getUser('user').username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.options.getUser('user').displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.user.id, i.options.getUser('user').id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.options.getUser('user').username} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.options.getUser('user').displayName} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -350,14 +350,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[1][3].X && game[2][3].X && game[3][3].X:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.user.username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.user.displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.options.getUser('user').id, i.user.id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.user.username} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.user.displayName} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -420,14 +420,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[1][3].O && game[2][3].O && game[3][3].O:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.options.getUser('user').username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.options.getUser('user').displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.user.id, i.options.getUser('user').id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.options.getUser('user').username} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.options.getUser('user').displayName} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -490,14 +490,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[1][1].X && game[2][2].X && game[3][3].X:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.user.username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.user.displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.options.getUser('user').id, i.user.id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.user.username} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.user.displayName} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -560,14 +560,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[1][1].O && game[2][2].O && game[3][3].O:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.options.getUser('user').username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.options.getUser('user').displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.user.id, i.options.getUser('user').id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.options.getUser('user').username} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.options.getUser('user').displayName} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -630,14 +630,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[1][3].X && game[2][2].X && game[3][1].X:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.user.username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.user.displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.options.getUser('user').id, i.user.id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.user.username} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.user.displayName} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -700,14 +700,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[1][3].O && game[2][2].O && game[3][1].O:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.options.getUser('user').username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.options.getUser('user').displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.user.id, i.options.getUser('user').id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.options.getUser('user').username} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.options.getUser('user').displayName} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -770,14 +770,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[1][1].X && game[1][2].X && game[1][3].X:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.user.username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.user.displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.options.getUser('user').id, i.user.id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.user.username} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.user.displayName} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -840,14 +840,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[1][1].O && game[1][2].O && game[1][3].O:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.options.getUser('user').username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.options.getUser('user').displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.user.id, i.options.getUser('user').id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.options.getUser('user').username} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.options.getUser('user').displayName} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -910,14 +910,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[2][1].X && game[2][2].X && game[2][3].X:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.user.username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.user.displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.options.getUser('user').id, i.user.id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.user.username} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.user.displayName} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -980,14 +980,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[2][1].O && game[2][2].O && game[2][3].O:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.options.getUser('user').username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.options.getUser('user').displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.user.id, i.options.getUser('user').id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.options.getUser('user').username} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.options.getUser('user').displayName} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -1050,14 +1050,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[3][1].X && game[3][2].X && game[3][3].X:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.user.username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.user.displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.options.getUser('user').id, i.user.id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.user.username} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.user.displayName} won the game, but the balance wasn't transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -1120,14 +1120,14 @@ const executeGame = async (i, i2) => {
 		break;
 	case game[3][1].O && game[3][2].O && game[3][3].O:
 		embed = new EmbedBuilder()
-			.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
-			.setTitle(`${i.options.getUser('user').username} won the game!`)
+			.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
+			.setTitle(`${i.options.getUser('user').displayName} won the game!`)
 			.setColor('DarkGreen')
 			.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
 		status = transferBal(i.user.id, i.options.getUser('user').id, i.options.getInteger('amount'));
 		if (!status) {
-			await i2.reply(`${i.options.getUser('user').username} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
+			await i2.reply(`${i.options.getUser('user').displayName} won the game, but an unexpected error occured while attempting to transfer points, so no ProCraft Points were transferred. **Please send a screenshot of this error to ProCraftGamin!**\nError: transferBal returned null.`);
 		} else {
 			await i2.edit({ embeds: [embed], components: [] });
 		}
@@ -1193,7 +1193,7 @@ const executeGame = async (i, i2) => {
 		if ((game[1][1].O || game[1][1].X) && (game[1][2].O || game[1][2].X) && (game[1][3].O || game[1][3].X) && (game[2][1].O || game[2][1].X) && (game[2][2].O || game[2][2].X) && (game[2][3].O || game[2][3].X) && (game[3][1].O || game[3][1].X) && (game[3][2].O || game[3][2].X) && (game[3][3].O || game[3][3].X)) {
 			embed = new EmbedBuilder()
 				.setColor('DarkRed')
-				.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
+				.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
 				.setTitle('Nobody won. All points have been returned.')
 				.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`);
 
@@ -1234,6 +1234,8 @@ const executeGame = async (i, i2) => {
 						await message.edit({ embeds: [embed], components: [row] });
 					}
 					if (user1RM && user2RM) {
+						user1RM = false;
+						user2RM = false;
 						collector.stop();
 						message.edit({ embeds: [embed], components: [] });
 						const loadingEmbed = new EmbedBuilder().setTitle('Loading...').setColor('Blue');
@@ -1309,9 +1311,10 @@ const executeGame = async (i, i2) => {
 			if (game.turn == 0) {
 				// embed for when its the user who used the command's turn
 				embed = new EmbedBuilder()
-					.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
+                    .setColor('Blue')
+					.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
 					.setTitle(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`)
-					.setDescription(`It is currently ${i.user.username}'s turn`);
+					.setDescription(`It is currently ${i.user.displayName}'s turn`);
 				// first row
 				row0 = new ActionRowBuilder()
 					.addComponents(
@@ -1388,9 +1391,10 @@ const executeGame = async (i, i2) => {
 			} else if (game.turn == 1) {
 				// embed for when its the challenged user's turn
 				embed = new EmbedBuilder()
-					.setAuthor({ name: `${i.user.username} VS ${i.options.getUser('user').username}` })
+					.setColor('Blue')
+					.setAuthor({ name: `${i.user.displayName} VS ${i.options.getUser('user').displayName}` })
 					.setTitle(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`)
-					.setDescription(`It is currently ${i.options.getUser('user').username}'s turn`);
+					.setDescription(`It is currently ${i.options.getUser('user').displayName}'s turn`);
 
 				// first row
 				row0 = new ActionRowBuilder()
@@ -1501,7 +1505,7 @@ const executeGame = async (i, i2) => {
 						if (game.turn == 0) {
 							transferBal(i.user.id, i.options.getUser('user').id, i.options.getInteger('amount'));
 							embed = new EmbedBuilder()
-								.setTitle(`${i.user.username} did not make a move in time, so the game has ended. ${i.options.getInteger('amount')} ProCraft Points have been given to ${i.options.getUser('user').username}.`)
+								.setTitle(`${i.user.displayName} did not make a move in time, so the game has ended. ${i.options.getInteger('amount')} ProCraft Points have been given to ${i.options.getUser('user').displayName}.`)
 								.setColor('DarkRed');
 							// eslint-disable-next-line no-shadow
 							i2.reply({ embeds: [embed], ephemeral: true }).then(async message => {
@@ -1514,7 +1518,7 @@ const executeGame = async (i, i2) => {
 						} else if (game.turn == 1) {
 							transferBal(i.options.getUser('user').id, i.user.id, i.options.getInteger('amount'));
 							embed = new EmbedBuilder()
-								.setTitle(`${i.options.getUser('user').username} did not make a move in time, so the game has ended. ${i.options.getInteger('amount')} ProCraft Points have been given to ${i.user.username}.`)
+								.setTitle(`${i.options.getUser('user').displayName} did not make a move in time, so the game has ended. ${i.options.getInteger('amount')} ProCraft Points have been given to ${i.user.displayName}.`)
 								.setColor('DarkRed');
 							// eslint-disable-next-line no-shadow
 							i2.reply({ embeds: [embed], ephemeral: true }).then(async message => {
@@ -1563,14 +1567,14 @@ module.exports = {
 			} else if (!user2Bal || user2Bal < interaction.options.getInteger('amount')) {
 				const embed = new EmbedBuilder()
 					.setColor('DarkRed')
-					.setTitle(`${interaction.options.getUser('user').username} doesn't have enough for this bet!`);
+					.setTitle(`${interaction.options.getUser('user').displayName} doesn't have enough for this bet!`);
 				await interaction.reply({ embeds: [embed], ephemeral: true });
 			} else {
 				// 1 is user who used the command, 2 is the user they challenged
 				let embed = new EmbedBuilder()
-					.setTitle(`${interaction.user.username} is challenging you to a game of Tic tac toe for ${interaction.options.getInteger('amount')} ProCraft Points!`)
-					.setDescription('Use the button below to accept!\nIf you do not accept within 60 seconds, the game will be cancelled.')
-					.setColor('DarkRed');
+					.setColor('DarkRed')
+					.setAuthor({ name: `${interaction.user.displayName} is challenging you to a game of Tic Tac Toe!`, iconURL: interaction.user.displayAvatarURL() })
+					.setDescription('Use the button below to accept!\nIf you do not accept within 60 seconds, the game will be cancelled.');
 
 				const row = new ActionRowBuilder()
 					.addComponents(
@@ -1587,9 +1591,10 @@ module.exports = {
 					const collector = message.createMessageComponentCollector({ filter, time: 60000 });
 					// create game embed
 					embed = new EmbedBuilder()
-						.setAuthor({ name: `${interaction.user.username} VS ${interaction.options.getUser('user').username}` })
+						.setColor('Blue')
+						.setAuthor({ name: `${interaction.user.displayName} VS ${interaction.options.getUser('user').displayName}` })
 						.setDescription(`${game[1][1].fill}${game[1][2].fill}${game[1][3].fill}\n${game[2][1].fill}${game[2][2].fill}${game[2][3].fill}\n${game[3][1].fill}${game[3][2].fill}${game[3][3].fill}`)
-						.setTitle(`It is currently ${interaction.user.username}'s turn`);
+						.setTitle(`It is currently ${interaction.user.displayName}'s turn`);
 
 					// if the user accepts edit the message to have the embed of the game
 					collector.on('collect', async () => {
@@ -1604,7 +1609,7 @@ module.exports = {
 					collector.on('end', async (collected) => {
 						if (collected.size == 0) {
 							embed = new EmbedBuilder()
-								.setTitle(`${interaction.options.getUser('user').username} did not accept in time, so the game has been cancelled.`)
+								.setTitle(`${interaction.options.getUser('user').displayName} did not accept in time, so the game has been cancelled.`)
 								.setColor('DarkRed');
 							interaction.followUp({ embeds: [embed], ephemeral: true });
 							interaction.deleteReply();

@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { setBal } = require('../../data/arcade utils');
-// const wait = require('node:timers/promises').setTimeout;
+const { setBal } = require('../../data/arcade functions');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -21,7 +20,7 @@ module.exports = {
 		if (!setBalResult) {
 			interaction.reply({ content: `${interaction.options.getUser('user')} does not currently have an account!`, ephemeral: true });
 		} else {
-			interaction.reply({ content: `Successfully set ${interaction.options.getUser('user').name}'s balance to ${interaction.options.getInteger('balance')}.`, ephemeral: true });
+			interaction.reply({ content: `Successfully set ${interaction.options.getUser('user').displayName}'s balance to ${interaction.options.getInteger('balance')}.`, ephemeral: true });
 		}
 	},
 };

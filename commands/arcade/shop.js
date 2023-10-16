@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { getBal, removeBal } = require('../../data/arcade utils');
+const { getBal, removeBal } = require('../../data/arcade functions');
 const { moderatorChannel, logChannel } = require('../../config.json');
 const fs = require('fs');
 let logEmbed = '';
@@ -32,7 +32,7 @@ module.exports = {
 			// create a function that contains everything so its easy to restart
 			const execute = async () => {
 				// parse json for pending requests
-				const pendingJson = fs.readFileSync('data/pending.json');
+				const pendingJson = fs.readFileSync('data/data.json');
 				const pending = JSON.parse(pendingJson);
 
 				// update user's balance
@@ -177,10 +177,11 @@ module.exports = {
 
 												// when user sends a message in DMS thats shorter than 175 characters
 												mCollector.on('collect', async c3 => {
+													c3.deferUpdate();
 
 													// add to pending json and overwrite
 													pending.shop.item1[interaction.user.id] = c3.content;
-													fs.writeFileSync('data/pending.json', await JSON.stringify(pending, null, 2));
+													fs.writeFileSync('data/data.json', await JSON.stringify(pending, null, 2));
 
 													// create embed and row for moderators
 													embed = new EmbedBuilder()
@@ -203,8 +204,7 @@ module.exports = {
 														);
 
 													// send to moderator channel
-													const channel = await interaction.client.channels.fetch(moderatorChannel);
-													await channel.send({ embeds: [embed], components: [row] });
+													interaction.client.channels.fetch(moderatorChannel).send({ embeds: [embed], components: [row] });
 
 													// create embed for user saying its been send to moderators
 													embed = new EmbedBuilder()
@@ -232,10 +232,15 @@ module.exports = {
 
 												// once the user types a message in the same channel
 												mCollector.on('collect', async c3 => {
+													c3.deferUpdate();
 
+													embed = new EmbedBuilder()
+														.setColor('Blue')
+														.setAuthor({ name: 'Send a message to my Wii', iconURL: 'https://whatemoji.org/wp-content/uploads/2020/07/Incoming-Envelope-Emoji-768x768.png' })
+														.setDescription(`Is "**${c3.content}**" ok?`);
 													// add to pending json and overwrite
 													pending.shop.item1[interaction.user.id] = c3.content;
-													fs.writeFileSync('data/pending.json', await JSON.stringify(pending, null, 2));
+													fs.writeFileSync('data/data.json', await JSON.stringify(pending, null, 2));
 
 													// create moderator embed and row
 													embed = new EmbedBuilder()
@@ -257,8 +262,7 @@ module.exports = {
 														);
 
 													// senwd to moderator channel and delete message the user sent from the channel
-													const channel = await interaction.client.channels.fetch(moderatorChannel);
-													await channel.send({ embeds: [embed], components: [row] });
+													interaction.client.channels.fetch(moderatorChannel).send({ embeds: [embed], components: [row] });
 													c3.delete();
 
 

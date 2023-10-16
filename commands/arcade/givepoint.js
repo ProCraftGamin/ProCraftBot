@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { transferBal } = require('../../data/arcade utils');
+const { transferBal } = require('../../data/arcade functions');
 
 module.exports = {
 	data: new SlashCommandBuilder()

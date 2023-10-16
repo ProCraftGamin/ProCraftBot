@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const { welcomeChannel } = require('../config.json');
+const { updateStocks } = require('../data/general functions.js');
 
 module.exports = {
 	name: 'guildMemberRemove',
@@ -9,6 +10,8 @@ module.exports = {
 			.setAuthor({ name: `${GuildMember.user.username} left the server.`, iconURL: GuildMember.user.displayAvatarURL() });
 
 		const channel = await GuildMember.guild.channels.fetch(welcomeChannel);
-		await channel.send({ embeds: [embed] });
+		channel.send({ embeds: [embed] });
+
+		updateStocks('PCD', 100, '-', GuildMember.client);
 	},
 };

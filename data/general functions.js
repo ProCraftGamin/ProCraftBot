@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
 const fs = require('fs');
-const { EmbedBuilder } = require('discord.js');
-const { addBal } = require('../data/arcade utils.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { updateStocks } = require('./arcade functions');
+const { addBal } = require('./arcade functions.js');
 const { guildId } = require('../config.json');
 const wait = require('node:timers/promises').setTimeout;
 const readline = require('readline');
 const fetch = require('node-fetch');
+const path = require('path');
 
 
 const cmdFunctions = (client) => {
@@ -47,7 +49,7 @@ const cmdFunctions = (client) => {
 				},
 			});
 			const rawData = await res.json();
-			let data = await JSON.stringify(rawData.data);
+			let data = await JSON.stringify(rawData.data, null, 2);
 			data = JSON.parse(data);
 			if (data.length == 0) {
 				console.log(`Unable to find a clip with ID "${inputSplitdummy[1]}"`);
@@ -61,6 +63,27 @@ const cmdFunctions = (client) => {
 				console.log(`Successfully set the top clip to "${data[0].title}"`);
 			}
 			cmdFunctions();
+		} else if (input.includes('config')) {
+			const inputSplit = input.split('|');
+
+			switch (inputSplit[1]) {
+			case 'stockChannel':
+				if (inputSplit[2] == null) {
+					console.log('Incorrect format! Usage: config|stockChannel|(Channel ID)');
+				} else {
+					client.channels.fetch(inputSplit[2]).then(channel => {
+						channel.send('Loading stock market...').then(message => {
+							const data = require('./data.json');
+							data.stocks.channelId = inputSplit[2];
+							data.stocks.messageId = message.id;
+							fs.writeFileSync(path.join(__dirname, '/data.json'), JSON.stringify(data, null, 2));
+							updateStocks('PCB', 0, '+', client);
+							console.log('Successfully set stock market channel.\n');
+							cmdFunctions();
+						});
+					});
+				}
+			}
 		}
 	});
 };
@@ -69,92 +92,6 @@ const rl = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout,
 });
-
-
-const unscrambleGame = async (client) => {
-	const { arcadeId } = require('../config.json');
-	const file = fs.readFileSync('C:\\Users\\procr_sriu2y2\\Desktop\\Discord bots\\ProCraftBot\\data\\unscramble words.txt').toString().split(/\r\n|\n/);
-	const filePos = Math.floor(Math.random() * file.length);
-
-	const wordScrambled = scrambleWord(file[filePos]);
-	const amount = wordScrambled.length * 25;
-	const initalEmbed = new EmbedBuilder()
-		.setTitle(`The first person to unscramble \n"${wordScrambled}" gets ${amount} ProCraft Points!`)
-		.setColor('Blue');
-
-	const a = await client.channels.fetch(arcadeId);
-	a.send({ embeds: [initalEmbed] }).then(interaction => {
-		const filter = m => m.content.toLowerCase().replace(' ', '') === (file[filePos].toLowerCase());
-		const collector = interaction.channel.createMessageCollector({ filter, time: 900000 });
-
-		collector.on('collect', async m => {
-			const status = addBal(m.author.id, amount);
-			if (!status) {
-				const newEmbed = new EmbedBuilder()
-					.setTitle(`${m.author.username} unscrambled "${m}" first, but hasnt opened an account yet. Therefore, they were not given the points. Open one with /open-acc!`)
-					.setColor('DarkRed');
-				interaction.channel.send({ embeds: [newEmbed] });
-			} else {
-				const newEmbed = new EmbedBuilder()
-					.setTitle(`${m.author.username} unscrambled "${m}" first!`)
-					.setColor('DarkGreen');
-				interaction.channel.send({ embeds: [newEmbed] });
-			}
-			collector.stop();
-			await wait(15000);
-			const currentDate = new Date();
-			const hour = currentDate.getHours();
-			if (hour == 2) {
-				console.log(`Clearing #${interaction.channel.name}`);
-				await interaction.channel.bulkDelete(100);
-				let messageCount = await interaction.channel.messages.fetch();
-				while (!messageCount.size == 0) {
-					await wait(15000);
-					interaction.channel.bulkDelete(100);
-					messageCount = await interaction.channel.messages.fetch();
-				}
-			}
-			await wait (300000);
-
-			unscrambleGame(client);
-		});
-
-		collector.on('end', async (collected) => {
-			if (collected.size == 0) {
-				const endEmbed = new EmbedBuilder()
-					.setTitle(`Nobody got the word. The word was "${file[filePos]}".`)
-					.setColor('DarkRed');
-				interaction.channel.send({ embeds: [endEmbed] });
-				const currentDate = new Date();
-				const hour = currentDate.getHours();
-				if (hour == 0) {
-					console.log(`Clearing #${interaction.channel.name}`);
-					await interaction.channel.bulkDelete(100);
-					let messageCount = await interaction.channel.messages.fetch();
-					while (!messageCount.size == 2) {
-						await wait(15000);
-						interaction.channel.bulkDelete(100);
-						messageCount = await interaction.channel.messages.fetch();
-					}
-				}
-				await wait(3600000);
-				unscrambleGame(client);
-			}
-		});
-	});
-};
-
-const scrambleWord = (word) => {
-	const wordTemp = word.split('');
-	for (let i = wordTemp.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		const tmp = wordTemp[i];
-		wordTemp[i] = wordTemp[j];
-		wordTemp[j] = tmp;
-	}
-	const wordNew = wordTemp.join('');
-	return wordNew;
-};
 
 const checkRoles = async (client) => {
 	const Guild = await client.guilds.fetch(guildId);
@@ -215,6 +152,4 @@ const checkRoles = async (client) => {
 module.exports = {
 	checkRoles: checkRoles,
 	cmdFunctions: cmdFunctions,
-	scrambleWord: scrambleWord,
-	unscrambleGame: unscrambleGame,
 };

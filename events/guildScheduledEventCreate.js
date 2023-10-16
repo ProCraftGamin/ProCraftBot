@@ -21,6 +21,6 @@ module.exports = {
 			);
 
 
-		await GuildScheduledEvent.guild.channels.fetch(eventsChannel).send({ embeds: [embed], components: [row] });
+		GuildScheduledEvent.guild.channels.fetch(eventsChannel).send({ embeds: [embed], components: [row] });
 	},
 };

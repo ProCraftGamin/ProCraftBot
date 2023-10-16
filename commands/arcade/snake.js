@@ -1,76 +1,235 @@
 /* eslint-disable no-unused-vars */
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { builtinModules } = require('node:module');
 const wait = require('node:timers/promises').setTimeout;
+const { addBal } = require('../../data/arcade functions.js');
 
-const width = 11;
-const height = 10;
+let intervalId = null;
+let collector = null;
+let row = null;
 
-// eslint-disable-next-line prefer-const
-let snakePos = [[Math.floor(width / 2), Math.floor(height / 2)]];
-
-const executeSnake = async (pos, w, h, intera) => {
-	let board = '';
-
-	// generate top border
-	for (let i = 0; i < width + 2; i++) {
-		board = board + '🟩';
+	const game = {
+		running: false,
+		boardSize: { w: 11, h: 10},
+		score: 0,
+		snakeDir: 'up',
 	}
-	board = board + '\n';
+	game.snakePos = [[Math.floor(game.boardSize.w / 2) + 1, Math.floor(game.boardSize.h / 2)]];
+	game.foodPos = [
+		Math.floor(Math.random() * (game.boardSize.w - 1)) + 1,
+		Math.floor(Math.random() * (game.boardSize.h - 1)) + 1
+	];
+	
 
-	// generate snake area
-	// height loop
-	for (let i = 0; i < height; i++) {
-		board = board + '🟩';
-
-		// width loop
-		for (let j = 0; j < width; j++) {
-			if (j == pos[0][1] && i == pos[0][0]) {
-				board = board + '🤢';
-			} else {
-				board = board + '⬛';
+	const hasDuplicates = (array) => {
+		var valuesSoFar = Object.create(null);
+		for (var i = 0; i < array.length; ++i) {
+			var value = array[i];
+			if (value in valuesSoFar) {
+				return true;
 			}
+			valuesSoFar[value] = true;
 		}
-		board = board + '🟩\n';
-	}
-	// generate bottom border
-	for (let i = 0; i < width + 2; i++) {
-		board = board + '🟩';
+		return false;
 	}
 
-	await intera.editReply({ content: board, embeds: [] });
+	const renderBoard = () => {
+		let board = '🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫\n';
 
-};
+		for (let c = 1; c <= game.boardSize.h; c++) {
+			board += '🟫';
+			for (let r = 1; r <= game.boardSize.w; r++) {
+                if (r == game.snakePos[0][0] && c == game.snakePos[0][1]) {
+					if(game.running == true) {
+                    	board += '🤢';
+					} else {
+						board += '🤮';
+					}
+                } else if (r == game.foodPos[0] && c == game.foodPos[1]) {
+                    board += '🍎';
+                } else {
+					let isTailSegment = false;
+                for (let i = 1; i < game.snakePos.length; i++) {
+                    if (r === game.snakePos[i][0] && c === game.snakePos[i][1]) {
+                        // Render the tail segment as 🟢
+                        board += '🟢';
+                        isTailSegment = true;
+                        break;
+                    }
+                }
+					if (!isTailSegment) {
+                    board += ':black_large_square:';
+					}
+                }
+            }
+			board += '🟫';
+            board += '\n';
+		}
+		board += '🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫';
+		return board;
+	}
+
+	const updateSnake = async (m, i) => {
+		const leftButton = new ButtonBuilder()
+		.setCustomId('c|left')
+		.setStyle(ButtonStyle.Success)
+		.setLabel('⬅️')
+
+		const upButton = new ButtonBuilder()
+		.setCustomId('c|up')
+		.setStyle(ButtonStyle.Success)
+		.setLabel('⬆️')
+
+		const downButton = new ButtonBuilder()
+		.setCustomId('c|down')
+		.setStyle(ButtonStyle.Success)
+		.setLabel('⬇️')
+
+		const rightButton = new ButtonBuilder()
+		.setCustomId('c|right')
+		.setStyle(ButtonStyle.Success)
+		.setLabel('➡️')
+		
+		let snakePosNew = game.snakePos.map(pos => [...pos]);
+		switch (game.snakeDir) {
+			case 'up':
+				snakePosNew.unshift([game.snakePos[0][0], game.snakePos[0][1] - 1]);
+				downButton.setDisabled(true);
+				break;
+			case 'down':
+				snakePosNew.unshift([game.snakePos[0][0], game.snakePos[0][1] + 1]);
+				upButton.setDisabled(true);
+				break;
+			case 'left':
+				snakePosNew.unshift([game.snakePos[0][0] - 1, game.snakePos[0][1]]);
+				rightButton.setDisabled(true);
+				break;
+			case 'right':
+				snakePosNew.unshift([game.snakePos[0][0] + 1, game.snakePos[0][1]]);
+				leftButton.setDisabled(true);
+				break;
+		}
+		if (snakePosNew[0][0] == game.foodPos[0] && snakePosNew[0][1] == game.foodPos[1]) {
+			game.foodPos = [
+				Math.floor(Math.random() * (game.boardSize.w - 1)) + 1,
+				Math.floor(Math.random() * (game.boardSize.h - 1)) + 1
+			];
+			
+			game.score += 50;
+		} else {
+			snakePosNew.pop();
+		}
+
+		const tailCollision = hasDuplicates(snakePosNew);
+		if (snakePosNew[0][0] == 0 || snakePosNew[0][1] == 0 || snakePosNew[0][0] > game.boardSize.w || snakePosNew[0][1] > game.boardSize.h || tailCollision) {
+			clearInterval(intervalId);
+			game.running = false;
+			collector.stop();
+			addBal(i.user.id, game.score);
+
+
+			const board = renderBoard();
+			const embed = new EmbedBuilder()
+				.setColor('Red')
+				.setAuthor({ name: `You died! Score: ${game.score}`, iconURL: i.user.displayAvatarURL() })
+				.setDescription(board)
+				.setFooter({ text: `You have been paid out ${game.score} points!`});
+
+			await m.edit({ embeds: [embed], components: [] });
+			game.snakePos = [[Math.floor(game.boardSize.w / 2), Math.floor(game.boardSize.h / 2)]];
+			game.score = 0;
+		} else {
+			game.snakePos = snakePosNew;
+        
+
+		const board = await renderBoard();
+
+		const embed = new EmbedBuilder()
+			.setAuthor({ name: `${i.user.displayName} • Score: ${game.score}`, iconURL: i.user.displayAvatarURL() })
+			.setColor('Green')
+			.setDescription(board);
+
+		await m.edit({ embeds: [embed], components: [new ActionRowBuilder().addComponents(leftButton, upButton, downButton, rightButton)] });
+		}
+	}
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('snake')
 		.setDescription('Play a game of snake'),
 	async execute(interaction) {
-		await interaction.reply('Loading snake...');
-		for (let i = 5; i >= 0; i--) {
-			if (i == 1) {
-				const startEmbed = new EmbedBuilder()
-					.setColor('Green')
-					.setAuthor({ name: 'Snake' })
-					.setTitle('How to play')
-					.setDescription('Every second, the snake will move. \n\n**Use ⬆️,⬇️,⬅️, and ➡️ to control the snake, and 🔃 to restart.**\n\nEvery 🍎 will give you 50 ProCraft Points, and at the end you will be given ProCraft Points based on how many 🍎 you collected.')
-					.setFooter({ text: `The game will start in ${i} second` });
+		if (game.running == true) {
+			embed = new EmbedBuilder()
+			.setColor('Red')
+			.setAuthor({ name: 'Someone is already playing snake, please wait for their game to end!', iconURL: interaction.user.displayAvatarURL() })
 
-				await interaction.editReply({ embeds: [startEmbed] });
-			} else {
-				const startEmbed = new EmbedBuilder()
-					.setColor('Green')
-					.setAuthor({ name: 'Snake' })
-					.setTitle('How to play')
-					.setDescription('Every second, the snake will move. \n\n**Use ⬆️,⬇️,⬅️, and ➡️ to control the snake, and 🔃 to restart.**\n\nEvery 🍎 will give you 50 ProCraft Points, and at the end you will be given ProCraft Points based on how many 🍎 you collected.')
-					.setFooter({ text: `The game will start in ${i} seconds` });
+			await interaction.reply({ embeds: [embed], ephemeral: true });
+		} else {
+		game.running = true;
+		const board = renderBoard();
+		const embed = new EmbedBuilder()
+			.setAuthor({ name: `${interaction.user.displayName} • Score: ${game.score}`, iconURL: interaction.user.displayAvatarURL() })
+			.setColor('Green')
+			.setDescription(board);
 
-				await interaction.editReply({ content: ' ', embeds: [startEmbed] });
-			}
-			await wait (1000);
+		row = new ActionRowBuilder()
+			.addComponents(
+				new ButtonBuilder()
+					.setCustomId('c|left')
+					.setStyle(ButtonStyle.Success)
+					.setLabel('⬅️'),
 
+				new ButtonBuilder()
+					.setCustomId('c|up')
+					.setStyle(ButtonStyle.Success)
+					.setLabel('⬆️'),
 
+				new ButtonBuilder()
+					.setCustomId('c|down')
+					.setStyle(ButtonStyle.Success)
+					.setLabel('⬇️'),
+
+				new ButtonBuilder()
+					.setCustomId('c|right')
+					.setStyle(ButtonStyle.Success)
+					.setLabel('➡️')
+			)
+
+			const filter = (i) => i.user.id == interaction.user.id;
+
+			await interaction.reply({ embeds: [embed], components: [row] }).then(message => {
+				intervalId = setInterval(updateSnake, 1000, message, interaction);
+
+				collector = message.createMessageComponentCollector({ filter, time: 600000 });
+			});
+
+			collector.on('collect', async (collected) => {
+				collected.deferUpdate();
+				switch (collected.customId) {
+					case 'c|left':
+						game.snakeDir = 'left';
+						break;
+					
+					case 'c|up':
+						game.snakeDir = 'up';
+						break;
+					
+					case 'c|down':
+						game.snakeDir = 'down';
+						break;
+					
+					case 'c|right':
+						game.snakeDir = 'right';
+						break;
+				}
+			})
+
+			collector.on('end', () => {
+				if (game.running) {
+					collector = interaction.message.createMessageComponentCollector({ filter, time: 600000 });
+				}
+			})
 		}
-		executeSnake(snakePos, width, height, interaction);
 	},
+
 };

@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 // const wait = require('node:timers/promises').setTimeout;
 // const fs = require('fs');
-const { getBal } = require('../../data/arcade utils');
+const { getBal } = require('../../data/arcade functions');
 
 module.exports = {
 	data: new SlashCommandBuilder()
