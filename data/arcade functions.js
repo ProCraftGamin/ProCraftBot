@@ -52,11 +52,12 @@ const removeBal = (userId, minus) => {
 	}
 };
 
-const transferBal = (user1Id, user2Id, amount) => {
+const transferBal = async (user1Id, user2Id, amount) => {
 	let status = removeBal(user1Id, amount);
 	if (!status) {
 		return null;
 	}
+	await wait(1000);
 	status = addBal(user2Id, amount);
 	if (!status) {
 		addBal(user1Id, amount);

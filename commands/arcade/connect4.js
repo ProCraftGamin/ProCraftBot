@@ -79,7 +79,7 @@ const executeGame = async (m, i) => {
 
 	// render board
 
-	let renderedBoard = '🟦🟦🟦🟦🟦🟦🟦🟦🟦\n';
+	let renderedBoard = '🟦:one::two::three::four::five::six::seven:🟦\n';
 
 	// eslint-disable-next-line no-shadow
 	for (let row = numRows; row >= 1; row--) {
@@ -198,12 +198,7 @@ const executeGame = async (m, i) => {
 						executeGame(m, i);
 					}
 				} else {
-					await collected.first().reply({ content: 'Please send a number between 1 and 7!' }).then(async m2 => {
-						executeGame(m, i);
-						await collected.first().delete();
-						await wait(5000);
-						await m2.delete();
-					});
+					executeGame(m, i);
 				}
 				await collected.first().delete();
 			}).catch(async () => {
