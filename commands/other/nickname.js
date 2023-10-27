@@ -7,7 +7,9 @@ module.exports = {
 		.setDescription('Request to change your server nickname!')
 		.addStringOption(option =>
 			option.setName('nickname')
-				.setDescription('The nickname you would like to request! Type "Reset" to reset your nickname!')),
+				.setDescription('The nickname you would like to request! Type "Reset" to reset your nickname!')
+				.setMinLength(1)
+				.setMaxLength(32)),
 	async execute(interaction) {
 
 		if (interaction.options.getString('nickname').replace(' ', '').toLowerCase() == 'reset') {

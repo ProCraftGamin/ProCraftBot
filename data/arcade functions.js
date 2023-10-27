@@ -235,7 +235,11 @@ const updateStreak = async (message) => {
 			})
 			.then(async (response) => {
 				if (response.status === 200) {
-					if ((message.content[0].toString().toLowerCase() == currentWord[currentWord.length - 1]) || (currentWord == 'among' && message.content.toString().toLowerCase() == 'us')) {
+					if (message.content.toString().toLowerCase() == currentWord) {
+						currentStreak = 0;
+
+						await message.react('❌');
+					} else if ((message.content[0].toString().toLowerCase() == currentWord[currentWord.length - 1]) || (currentWord == 'among' && message.content.toString().toLowerCase() == 'us')) {
 						currentStreak++;
 						currentWord = message.content.toString().toLowerCase();
 
@@ -247,6 +251,7 @@ const updateStreak = async (message) => {
 						currentStreak = 0;
 
 						await message.react('❌');
+						currentWord = message.content.toString().toLowerCase();
 
 					// streak ends because word doesnt start with last letter of last word
 					}
@@ -269,7 +274,7 @@ const updateStreak = async (message) => {
 				}
 			});
 		const channel = await message.client.channels.fetch(message.channelId);
-		channel.setTopic(`Current word: ${currentWord} - ${currentStreak} streak`);
+		channel.setTopic(`Last word: ${currentWord} - ${currentStreak} streak`);
 	}
 };
 
