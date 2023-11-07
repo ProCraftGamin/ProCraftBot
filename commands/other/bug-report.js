@@ -39,7 +39,7 @@ module.exports = {
 
 
 		// parse pending file JSON
-		const pendingJson = fs.readFileSync('data/pending.json');
+		const pendingJson = fs.readFileSync('data/data.json');
 		const pendingFile = JSON.parse(pendingJson);
 
 		// define ID (basically just a counter), description, replication steps, and notification boolean
@@ -64,6 +64,11 @@ module.exports = {
 					.setCustomId(`d|bug|${id}|status`)
 					.setLabel('📄 Change status')
 					.setStyle(ButtonStyle.Secondary),
+
+				new ButtonBuilder()
+					.setCustomId(`d|bug|${id}|ticket`)
+					.setLabel('🎫 Open ticket')
+					.setStyle(ButtonStyle.Secondary),
 			);
 
 		// send to log channel
@@ -83,7 +88,7 @@ module.exports = {
 				},
 			};
 
-			fs.writeFileSync('data/pending.json', JSON.stringify(pendingFile, null, 2));
+			fs.writeFileSync('data/data.json', JSON.stringify(pendingFile, null, 2));
 		});
 
 

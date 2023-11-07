@@ -1,57 +1,35 @@
 {
   "balances": {
-    "1057200241104912466": 96208,
+    "1057200241104912466": 90028,
     "1075964775504285696": 4575,
-    "785896336583163925": 38821,
-    "1043956095519035493": 77940,
+    "785896336583163925": 39701,
+    "1043956095519035493": 78140,
     "944667721826705489": 8100,
-    "584812997776637963": 10260,
+    "584812997776637963": 395,
     "808828916432633876": 5000,
-    "706949972985118731": 29680,
+    "706949972985118731": 24750,
     "977024037660278796": 58010,
-    "775420795861205013": 18986,
-    "1126613271445782579": 1005
+    "775420795861205013": 18701,
+    "1126613271445782579": -203,
+    "1067637524786331658": 1786,
+    "1058983440252416040": 300
   },
   "shop": {
-    "item1": {}
+    "sendWiiMessage": {},
+    "spotifyRequest": {}
   },
-  "bug reports": {
-    "1": {
-      "message-id": "1095846006693826602",
-      "description": "whopper whopper whopper whopper junior double tripple whopper flame-grilled taste with perfect toppers i rule this day",
-      "replication-steps": "whopper",
-      "status": 4,
-      "user": {
-        "username": "EnderCreep3",
-        "avatar": "https://cdn.discordapp.com/avatars/706949972985118731/b66a80d467e7a006fd9a840ecb97232a.webp",
-        "id": "706949972985118731",
-        "notifications": true
-      }
-    },
-    "2": {
-      "message-id": "1112215376680464385",
-      "description": "testing",
-      "replication-steps": "why do you care",
-      "status": 2,
-      "user": {
-        "username": "ProCraftGamin",
-        "avatar": "https://cdn.discordapp.com/avatars/977024037660278796/36af786e92d45ab9f97f63d068d6b555.webp",
-        "id": "977024037660278796",
-        "notifications": true
-      }
-    }
-  },
+  "bug reports": {},
   "tickets": {},
   "stocks": {
     "PCB": {
       "display": "ProCraftBot",
-      "value": 18,
-      "previous": 20,
-      "updateTime": "2023-10-27T06:09:16.834Z",
+      "value": -81,
+      "previous": 19,
+      "updateTime": "2023-11-06T02:03:35.618Z",
       "owners": {
         "775420795861205013": {
-          "purchaseCost": 108.9,
-          "amount": 1
+          "purchaseCost": 64.35000000000001,
+          "amount": 101
         },
         "785896336583163925": {
           "purchaseCost": 118.8,
@@ -65,21 +43,29 @@
     },
     "PCD": {
       "display": "ProCraftDiscord",
-      "value": 375,
-      "previous": 341,
-      "updateTime": "2023-10-27T16:51:48.160Z",
+      "value": 764,
+      "previous": 695,
+      "updateTime": "2023-11-04T02:03:39.565Z",
       "owners": {
         "1126613271445782579": {
-          "purchaseCost": 358.05,
+          "purchaseCost": 662.8875,
+          "amount": 17
+        },
+        "1067637524786331658": {
+          "purchaseCost": 632.5,
+          "amount": 2
+        },
+        "584812997776637963": {
+          "purchaseCost": 695.2,
           "amount": 15
         }
       }
     },
     "STRM": {
       "display": "Stream",
-      "value": 131,
-      "previous": 146,
-      "updateTime": "2023-10-23T20:46:17.821Z",
+      "value": 381,
+      "previous": 331,
+      "updateTime": "2023-11-04T00:04:57.060Z",
       "owners": {
         "1057200241104912466": {
           "purchaseCost": 121,

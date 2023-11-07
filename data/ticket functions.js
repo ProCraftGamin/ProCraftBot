@@ -121,7 +121,6 @@ const close = async (client, ticketId, user) => {
 	pending.tickets[ticketId].dateClosed = new Date();
 
 	ticket.permissionOverwrites.create(pending.tickets[ticketId].userId, { SendMessages: false });
-	ticket.setName(`(closed) ${pending.tickets[ticketId].name}`);
 
 	embed = new EmbedBuilder()
 		.setColor('Blue')
@@ -129,6 +128,7 @@ const close = async (client, ticketId, user) => {
 		.setTimestamp();
 
 	await ticket.send({ embeds: [embed] });
+	ticket.setName(`(closed) ${pending.tickets[ticketId].name}`);
 
 	fs.writeFileSync(path.join(__dirname, '/data.json'), JSON.stringify(pending, null, 2));
 };
@@ -142,7 +142,6 @@ const reopen = async (client, ticketId, user) => {
 	delete pending.tickets[ticketId].dateClosed;
 
 	ticket.permissionOverwrites.create(pending.tickets[ticketId].userId, { SendMessages: true });
-	ticket.setName(pending.tickets[ticketId].name);
 
 	embed = new EmbedBuilder()
 		.setColor('Blue')

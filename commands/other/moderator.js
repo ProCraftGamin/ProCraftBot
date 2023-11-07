@@ -35,7 +35,7 @@ module.exports = {
 			}
 			break;
 		case 'ticketClose':
-			tempTicketData = require('../../data/pending.json').tickets[interaction.channel.id];
+			tempTicketData = require('../../data/data.json').tickets[interaction.channel.id];
 			if (!tempTicketData) {
 				await interaction.editReply({ content: '**Not a valid ticket!**\n*Please use this command in a ticket channel!*', ephemeral: true });
 			} else {
@@ -44,7 +44,7 @@ module.exports = {
 			}
 			break;
 		case 'ticketReopen':
-			tempTicketData = require('../../data/pending.json').tickets[interaction.channel.id];
+			tempTicketData = require('../../data/data.json').tickets[interaction.channel.id];
 			if (!tempTicketData) {
 				await interaction.editReply({ content: '**Not a valid ticket!**\n*Please use this command in a ticket channel!*', ephemeral: true });
 			} else {

@@ -23,7 +23,7 @@ const watermark = new ActionRowBuilder()
 
 const devActions = async (interaction) => {
 	// parse pending json file
-	let pending = await fs.readFileSync('data/pending.json');
+	let pending = await fs.readFileSync('data/data.json');
 	pending = await JSON.parse(pending);
 
 	// defer update and split button id

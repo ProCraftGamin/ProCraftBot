@@ -25,6 +25,10 @@ module.exports = {
 					const buttonEvent = require(`../buttons/${interaction.customId[0]}`);
 					await buttonEvent(interaction);
 				}
+			} else if (interaction.customId.includes('|')) {
+				interaction.deferUpdate();
+				const buttonPress = require(`../buttons/${interaction.customId.split('|')[0]}.js`);
+				buttonPress(interaction);
 			} else {
 				const buttonPress = require(`../buttons/${interaction.customId}.js`);
 				buttonPress(interaction);
