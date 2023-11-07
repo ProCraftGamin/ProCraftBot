@@ -1,5 +1,5 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { wordnikToken } = require('../config.json');
+const { wordnikToken, streakChannel } = require('../config.json');
 const fs = require('fs');
 const path = require('path');
 const wait = require('node:timers/promises').setTimeout;
@@ -8,7 +8,6 @@ const axios = require('axios');
 // word streak stuff
 let currentStreak = 0;
 let currentWord = 'among';
-const streakChannel = '';
 let lastUser = '';
 
 const getBal = (userId) => {
@@ -278,6 +277,19 @@ const updateStreak = async (message) => {
 	}
 };
 
+const getLastStreakWord = async (client, before) => {
+	await client.channels.fetch(streakChannel).then(async (channel) => {
+		let message = null;
+		before == null ? message = await channel.messages.fetch({ limit: 1 }) : message = await channel.messages.fetch({ limit: 1, before: before });
+
+		if (/\s/.test(message.first().content)) {
+			await getLastStreakWord(client, message.first().id);
+		} else {
+			currentWord = message.first().content;
+		}
+	});
+};
+
 exports.transferBal = transferBal;
 exports.removeBal = removeBal;
 exports.addBal = addBal;
@@ -287,3 +299,4 @@ exports.checkStockInactivity = checkStockInactivity;
 exports.updateStocks = updateStocks;
 exports.unscrambleGame = unscrambleGame;
 exports.updateStreak = updateStreak;
+exports.getLastStreakWord = getLastStreakWord;

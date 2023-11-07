@@ -19,5 +19,6 @@ module.exports = {
 		deleteTickets(client);
 		liveCheck(client);
 		arcadeFunctions.checkStockInactivity(client);
+		arcadeFunctions.getLastStreakWord(client);
 	},
 };

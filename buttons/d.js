@@ -105,6 +105,10 @@ const devActions = async (interaction) => {
 							new ButtonBuilder()
 								.setCustomId(`d|bug|${[buttonIdSplit[2]]}|status`)
 								.setLabel('📄 Change status')
+								.setStyle(ButtonStyle.Secondary),
+							new ButtonBuilder()
+								.setCustomId(`d|bug|${[buttonIdSplit[2]]}|ticket`)
+								.setLabel('🎫 Open ticket')
 								.setStyle(ButtonStyle.Secondary));
 					await interaction.message.edit({ components: [defaultRow] });
 
