@@ -85,6 +85,28 @@ const cmdFunctions = (client) => {
 				}
 			}
 		}
+		// } else if (input.includes('data')) {
+		// 	if (/\s/.test(input)) {
+		// 		const splitInput = input.split(' ');
+
+		// 		switch (splitInput[1]) {
+		// 		case 'modify':
+
+		// 			break;
+		// 		case 'delete':
+
+		// 			break;
+		// 		case 'list':
+
+		// 			break;
+		// 		}
+		// 	} else {
+		// 		console.log('Command usage: data\n\ndata modify (key) (value)\ndata delete (key)\ndata list');
+		// 		cmdFunctions();
+		// 	}
+
+
+		// }
 	});
 };
 

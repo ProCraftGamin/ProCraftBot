@@ -104,6 +104,7 @@ const updateStocks = async (stock, change, operator, client) => {
 		case 'set':
 			stockData[stock].value = change;
 		}
+		if (stockData[stock].value < 0) stockData[stock].value = 1;
 	} else {
 		return 404;
 	}
@@ -185,7 +186,7 @@ const unscrambleGame = async (client) => {
 	const a = await client.channels.fetch(arcadeId);
 	a.send({ embeds: [initalEmbed] }).then(interaction => {
 		const filter = m => m.content.toLowerCase().replace(' ', '') === (file[filePos].toLowerCase());
-		const collector = interaction.channel.createMessageCollector({ filter, time: 900000 });
+		const collector = interaction.channel.createMessageCollector({ filter, time: 3600000 });
 
 		collector.on('collect', async m => {
 			const status = addBal(m.author.id, amount);
@@ -260,6 +261,7 @@ const updateStreak = async (message) => {
 				if (error.response.data.statusCode == 404) {
 					// text doesnt match a word
 					currentStreak = 0;
+					currentWord = message.content.toString().toLowerCase();
 					await message.react('❌');
 
 				} else if (error.response.status == 429) {

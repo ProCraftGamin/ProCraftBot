@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const { welcomeChannel } = require('../config.json');
-const { updateStocks } = require('../data/general functions.js');
+const { updateStocks } = require('../data/arcade functions.js');
 
 module.exports = {
 	name: 'guildMemberRemove',

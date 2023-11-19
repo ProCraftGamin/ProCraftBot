@@ -1,18 +1,18 @@
 {
   "balances": {
-    "1057200241104912466": 90038,
+    "1057200241104912466": 101813,
     "1075964775504285696": 4575,
-    "785896336583163925": 39701,
-    "1043956095519035493": 78140,
+    "785896336583163925": 39721,
+    "1043956095519035493": 78310,
     "944667721826705489": 8097,
-    "584812997776637963": 395,
-    "808828916432633876": 5000,
-    "706949972985118731": 24780,
-    "977024037660278796": 58010,
-    "775420795861205013": 18884,
-    "1126613271445782579": -183,
+    "584812997776637963": 3753,
+    "808828916432633876": 6920,
+    "706949972985118731": 24860,
+    "977024037660278796": 59010,
+    "775420795861205013": 26228,
+    "1126613271445782579": 0,
     "1067637524786331658": 1786,
-    "1058983440252416040": 300
+    "1058983440252416040": 194
   },
   "shop": {
     "sendWiiMessage": {},
@@ -30,35 +30,86 @@
         "id": "584812997776637963",
         "notifications": true
       }
+    },
+    "2": {
+      "message-id": "1175620718541680670",
+      "description": "points not adding from snake, I should have at least 1000 but I only have 803",
+      "replication-steps": "not sure, just playing snake",
+      "status": 0,
+      "user": {
+        "username": "signalboy",
+        "avatar": "https://cdn.discordapp.com/avatars/584812997776637963/1ae2806408cf6be7eb89e7e641a10576.webp",
+        "id": "584812997776637963",
+        "notifications": true
+      }
+    },
+    "3": {
+      "message-id": "1175620856999845959",
+      "description": "the apples on the snake game can sometimes spawn in the snakes body",
+      "replication-steps": "none just play snake RNG based",
+      "status": 0,
+      "user": {
+        "username": "signalboy",
+        "avatar": "https://cdn.discordapp.com/avatars/584812997776637963/1ae2806408cf6be7eb89e7e641a10576.webp",
+        "id": "584812997776637963",
+        "notifications": true
+      }
+    },
+    "4": {
+      "message-id": "1175622159884890203",
+      "description": "snake sometimes does not eat the apple when the head goes on top of the square with the apple",
+      "replication-steps": "none just play snake",
+      "status": 0,
+      "user": {
+        "username": "signalboy",
+        "avatar": "https://cdn.discordapp.com/avatars/584812997776637963/1ae2806408cf6be7eb89e7e641a10576.webp",
+        "id": "584812997776637963",
+        "notifications": true
+      }
     }
   },
-  "tickets": {},
+  "tickets": {
+    "1175674729181499463": {
+      "userId": "584812997776637963",
+      "name": "points not adding from snake, I should have at least 1000 but I only have 803",
+      "description": "not sure, just playing snake",
+      "status": 1
+    }
+  },
   "stocks": {
     "PCB": {
       "display": "ProCraftBot",
-      "value": -81,
-      "previous": 19,
-      "updateTime": "2023-11-06T02:03:35.618Z",
+      "value": 106,
+      "previous": 97,
+      "updateTime": "2023-11-19T03:44:57.338Z",
       "owners": {
         "775420795861205013": {
           "purchaseCost": 64.35000000000001,
-          "amount": 101
+          "amount": 100
         },
         "785896336583163925": {
           "purchaseCost": 118.8,
           "amount": 5
         },
         "584812997776637963": {
-          "purchaseCost": 19.8,
-          "amount": 10
+          "purchaseCost": 93.22500000000001,
+          "amount": 35
+        },
+        "706949972985118731": {
+          "purchaseCost": -119.9,
+          "amount": 100
+        },
+        "1058983440252416040": {
+          "purchaseCost": 106.7,
+          "amount": 1
         }
       }
     },
     "PCD": {
       "display": "ProCraftDiscord",
-      "value": 764,
-      "previous": 695,
-      "updateTime": "2023-11-04T02:03:39.565Z",
+      "value": 761,
+      "previous": 846,
+      "updateTime": "2023-11-16T04:50:50.093Z",
       "owners": {
         "1126613271445782579": {
           "purchaseCost": 662.8875,
@@ -70,15 +121,15 @@
         },
         "584812997776637963": {
           "purchaseCost": 695.2,
-          "amount": 15
+          "amount": 14
         }
       }
     },
     "STRM": {
       "display": "Stream",
-      "value": 381,
-      "previous": 331,
-      "updateTime": "2023-11-04T00:04:57.060Z",
+      "value": 360,
+      "previous": 400,
+      "updateTime": "2023-11-17T19:03:33.701Z",
       "owners": {
         "1057200241104912466": {
           "purchaseCost": 121,
@@ -86,7 +137,11 @@
         },
         "775420795861205013": {
           "purchaseCost": 139.7,
-          "amount": 8
+          "amount": 5
+        },
+        "584812997776637963": {
+          "purchaseCost": 382.25,
+          "amount": 2
         }
       }
     },
