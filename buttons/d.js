@@ -115,7 +115,7 @@ const devActions = async (interaction) => {
 
 					// overwrite pending file
 					pending['bug reports'][buttonIdSplit[2]].status = status;
-					fs.writeFileSync('data/pending.json', JSON.stringify(pending, null, 2));
+					fs.writeFileSync('data/data.json', JSON.stringify(pending, null, 2));
 
 					// if user has notifications on
 					if (pending['bug reports'][buttonIdSplit[2]].user.notifications) {

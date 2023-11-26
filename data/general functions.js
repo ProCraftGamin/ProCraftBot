@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 const fs = require('fs');
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Embed } = require('discord.js');
 const { updateStocks } = require('./arcade functions');
 const { addBal } = require('./arcade functions.js');
-const { guildId } = require('../config.json');
+const { guildId, logChannel } = require('../config.json');
 const wait = require('node:timers/promises').setTimeout;
 const readline = require('readline');
 const fetch = require('node-fetch');
@@ -120,7 +120,6 @@ const checkRoles = async (client) => {
 	const members = await Guild.members.fetch();
 	const memberIds = members.map(user => user.id);
 	const roleStructure = require('../data/role structure');
-	const { logChannel } = require('../config.json');
 	const logsChannel = await client.channels.fetch(logChannel);
 
 
@@ -170,8 +169,39 @@ const checkRoles = async (client) => {
 
 };
 
+const clearBugReports = async function(client) {
+	console.log('clearBugReports');
+	const data = JSON.parse(fs.readFileSync(path.join(__dirname, '/data.json')));
+	let reportDeleted = false;
+	let reportDisplay = '**Reports deleted:**';
+
+	Object.keys(data['bug reports']).forEach(async reportId => {
+		console.log(reportId);
+		if (data['bug reports'][reportId].status == 6 || data['bug reports'][reportId].status == 5 || data['bug reports'][reportId].status == 4 || data['bug reports'][reportId].status == 3) {
+			client.channels.fetch(logChannel).then(async channel => {
+				await channel.messages.fetch(data['bug reports'][reportId]['message-id']).then(async message => {
+					await message.delete();
+				});
+			});
+			reportDisplay += `\n\n**${data['bug reports'][reportId].description}** by **${data['bug reports'][reportId].user.username}**`;
+			delete data['bug reports'][reportId];
+			fs.writeFileSync(path.join(__dirname, '/data.json'), JSON.stringify(data, null, 2));
+			reportDeleted = true;
+		}
+	});
+	if (reportDeleted) {
+		await client.channels.fetch(logChannel).then(async channel => {
+			const embed = new EmbedBuilder()
+				.setColor('Red')
+				.setTitle('Bug report deletion completed')
+				.setDescription(reportDisplay);
+		});
+	}
+};
+
 
 module.exports = {
 	checkRoles: checkRoles,
 	cmdFunctions: cmdFunctions,
+	clearBugReports: clearBugReports,
 };

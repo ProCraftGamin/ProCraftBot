@@ -3,9 +3,9 @@
     "1057200241104912466": 108218,
     "1075964775504285696": 4575,
     "785896336583163925": 39721,
-    "1043956095519035493": 80850,
+    "1043956095519035493": 81025,
     "944667721826705489": 8097,
-    "584812997776637963": -2644,
+    "584812997776637963": -2519,
     "808828916432633876": 6970,
     "706949972985118731": 25625,
     "977024037660278796": -8,
@@ -19,42 +19,6 @@
     "spotifyRequest": {}
   },
   "bug reports": {
-    "1": {
-      "message-id": "1171342199766659093",
-      "description": "<#1161783010371309660> ⁠basically your code dosent work according to  <#1050810732540858531>",
-      "replication-steps": "typing words",
-      "status": 0,
-      "user": {
-        "username": "signalboy",
-        "avatar": "https://cdn.discordapp.com/avatars/584812997776637963/1ae2806408cf6be7eb89e7e641a10576.webp",
-        "id": "584812997776637963",
-        "notifications": true
-      }
-    },
-    "2": {
-      "message-id": "1175620718541680670",
-      "description": "points not adding from snake, I should have at least 1000 but I only have 803",
-      "replication-steps": "not sure, just playing snake",
-      "status": 0,
-      "user": {
-        "username": "signalboy",
-        "avatar": "https://cdn.discordapp.com/avatars/584812997776637963/1ae2806408cf6be7eb89e7e641a10576.webp",
-        "id": "584812997776637963",
-        "notifications": true
-      }
-    },
-    "3": {
-      "message-id": "1175620856999845959",
-      "description": "the apples on the snake game can sometimes spawn in the snakes body",
-      "replication-steps": "none just play snake RNG based",
-      "status": 0,
-      "user": {
-        "username": "signalboy",
-        "avatar": "https://cdn.discordapp.com/avatars/584812997776637963/1ae2806408cf6be7eb89e7e641a10576.webp",
-        "id": "584812997776637963",
-        "notifications": true
-      }
-    },
     "4": {
       "message-id": "1175622159884890203",
       "description": "snake sometimes does not eat the apple when the head goes on top of the square with the apple",
@@ -71,7 +35,7 @@
       "message-id": "1178227789669867570",
       "description": "You can get negative points again by buying stocks in #📄stocks",
       "replication-steps": "Just buy stocks",
-      "status": 0,
+      "status": 1,
       "user": {
         "username": "signalboy",
         "avatar": "https://cdn.discordapp.com/avatars/584812997776637963/1ae2806408cf6be7eb89e7e641a10576.webp",
