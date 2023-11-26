@@ -1,15 +1,15 @@
 {
   "balances": {
-    "1057200241104912466": 101813,
+    "1057200241104912466": 108218,
     "1075964775504285696": 4575,
     "785896336583163925": 39721,
-    "1043956095519035493": 78310,
+    "1043956095519035493": 80850,
     "944667721826705489": 8097,
-    "584812997776637963": 3753,
-    "808828916432633876": 6920,
-    "706949972985118731": 24860,
-    "977024037660278796": 59010,
-    "775420795861205013": 26228,
+    "584812997776637963": -2644,
+    "808828916432633876": 6970,
+    "706949972985118731": 25625,
+    "977024037660278796": -8,
+    "775420795861205013": 27338,
     "1126613271445782579": 0,
     "1067637524786331658": 1786,
     "1058983440252416040": 194
@@ -66,22 +66,35 @@
         "id": "584812997776637963",
         "notifications": true
       }
+    },
+    "5": {
+      "message-id": "1178227789669867570",
+      "description": "You can get negative points again by buying stocks in #📄stocks",
+      "replication-steps": "Just buy stocks",
+      "status": 0,
+      "user": {
+        "username": "signalboy",
+        "avatar": "https://cdn.discordapp.com/avatars/584812997776637963/1ae2806408cf6be7eb89e7e641a10576.webp",
+        "id": "584812997776637963",
+        "notifications": true
+      }
     }
   },
   "tickets": {
-    "1175674729181499463": {
+    "1178230933254569994": {
       "userId": "584812997776637963",
-      "name": "points not adding from snake, I should have at least 1000 but I only have 803",
-      "description": "not sure, just playing snake",
-      "status": 1
+      "name": "You can get negative points again by buying stocks in #📄stocks",
+      "description": "Just buy stocks",
+      "status": 0,
+      "dateClosed": "2023-11-26T21:29:27.533Z"
     }
   },
   "stocks": {
     "PCB": {
       "display": "ProCraftBot",
-      "value": 106,
-      "previous": 97,
-      "updateTime": "2023-11-19T03:44:57.338Z",
+      "value": 93,
+      "previous": 104,
+      "updateTime": "2023-11-26T17:47:17.744Z",
       "owners": {
         "775420795861205013": {
           "purchaseCost": 64.35000000000001,
@@ -93,7 +106,7 @@
         },
         "584812997776637963": {
           "purchaseCost": 93.22500000000001,
-          "amount": 35
+          "amount": 32
         },
         "706949972985118731": {
           "purchaseCost": -119.9,
@@ -102,14 +115,18 @@
         "1058983440252416040": {
           "purchaseCost": 106.7,
           "amount": 1
+        },
+        "977024037660278796": {
+          "purchaseCost": 104.5,
+          "amount": 2
         }
       }
     },
     "PCD": {
       "display": "ProCraftDiscord",
-      "value": 761,
-      "previous": 846,
-      "updateTime": "2023-11-16T04:50:50.093Z",
+      "value": 561,
+      "previous": 661,
+      "updateTime": "2023-11-24T03:29:02.605Z",
       "owners": {
         "1126613271445782579": {
           "purchaseCost": 662.8875,
@@ -127,9 +144,9 @@
     },
     "STRM": {
       "display": "Stream",
-      "value": 360,
-      "previous": 400,
-      "updateTime": "2023-11-17T19:03:33.701Z",
+      "value": 286,
+      "previous": 260,
+      "updateTime": "2023-11-26T04:56:09.243Z",
       "owners": {
         "1057200241104912466": {
           "purchaseCost": 121,
@@ -140,8 +157,8 @@
           "amount": 5
         },
         "584812997776637963": {
-          "purchaseCost": 382.25,
-          "amount": 2
+          "purchaseCost": 310.0625,
+          "amount": 40
         }
       }
     },

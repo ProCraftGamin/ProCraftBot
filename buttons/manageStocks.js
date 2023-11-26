@@ -308,10 +308,11 @@ const managestocks = async (interaction) => {
 											await wait(100);
 											// DO NOT TOUCH THIS LINE SO HELP ME GOD
 											fs.writeFileSync(path.join(__dirname, '../data/data.json'), JSON.stringify(dataFile, null, 2));
-											await wait(1000);
+											await wait(500);
 											await updateStocks(c2.values[0], Math.floor(stockData[c2.values[0]].value / 10 + stockData[c2.values[0]].value), 'set', interaction.client);
 											await removeBal(interaction.user.id, (Math.floor((stockData[c2.values[0]].value / 10) + stockData[c2.values[0]].value) * stockNumber));
 
+											await wait(500);
 											manageStockMenu();
 										} else {manageStockMenu(); }
 									});
@@ -506,9 +507,10 @@ const managestocks = async (interaction) => {
 											await wait(100);
 											// DO NOT TOUCH THIS LINE SO HELP ME GOD
 											fs.writeFileSync(path.join(__dirname, '../data/data.json'), JSON.stringify(dataFile, null, 2));
-											await wait(1000);
+											await wait(500);
 											await updateStocks(c2.values[0], Math.floor(stockData[c2.values[0]].value - stockData[c2.values[0]].value / 10), 'set', interaction.client);
 											await addBal(interaction.user.id, (Math.floor(stockData[c2.values[0]].value - (stockData[c2.values[0]].value / 10)) * stockNumber));
+											await wait(500);
 
 											manageStockMenu();
 										} else {manageStockMenu(); }
