@@ -1,17 +1,17 @@
 {
   "balances": {
-    "1057200241104912466": 108218,
+    "1057200241104912466": 132732,
     "1075964775504285696": 4575,
     "785896336583163925": 39721,
-    "1043956095519035493": 81025,
+    "1043956095519035493": 99421,
     "944667721826705489": 8097,
-    "584812997776637963": -2519,
+    "584812997776637963": 1188,
     "808828916432633876": 6970,
-    "706949972985118731": 25625,
-    "977024037660278796": -8,
-    "775420795861205013": 27338,
+    "706949972985118731": 22250,
+    "977024037660278796": 1,
+    "775420795861205013": 24278,
     "1126613271445782579": 0,
-    "1067637524786331658": 1786,
+    "1067637524786331658": 2914,
     "1058983440252416040": 194
   },
   "shop": {
@@ -19,11 +19,23 @@
     "spotifyRequest": {}
   },
   "bug reports": {
-    "4": {
-      "message-id": "1175622159884890203",
-      "description": "snake sometimes does not eat the apple when the head goes on top of the square with the apple",
-      "replication-steps": "none just play snake",
+    "3": {
+      "message-id": "1182167285750845441",
+      "description": "Never Going to Give You Up dosen't count when you type it in <#1161783151111176282>",
+      "replication-steps": "None, you just have to wait for Never Going to Give You Up",
       "status": 0,
+      "user": {
+        "username": "signalboy",
+        "avatar": "https://cdn.discordapp.com/avatars/584812997776637963/1ae2806408cf6be7eb89e7e641a10576.webp",
+        "id": "584812997776637963",
+        "notifications": true
+      }
+    },
+    "4": {
+      "message-id": "1185449262243393648",
+      "description": "If 3 or more players play in #streaks the bot breaks and says every word is wrong",
+      "replication-steps": "none",
+      "status": 4,
       "user": {
         "username": "signalboy",
         "avatar": "https://cdn.discordapp.com/avatars/584812997776637963/1ae2806408cf6be7eb89e7e641a10576.webp",
@@ -35,7 +47,7 @@
       "message-id": "1178227789669867570",
       "description": "You can get negative points again by buying stocks in #📄stocks",
       "replication-steps": "Just buy stocks",
-      "status": 1,
+      "status": 3,
       "user": {
         "username": "signalboy",
         "avatar": "https://cdn.discordapp.com/avatars/584812997776637963/1ae2806408cf6be7eb89e7e641a10576.webp",
@@ -44,21 +56,13 @@
       }
     }
   },
-  "tickets": {
-    "1178230933254569994": {
-      "userId": "584812997776637963",
-      "name": "You can get negative points again by buying stocks in #📄stocks",
-      "description": "Just buy stocks",
-      "status": 0,
-      "dateClosed": "2023-11-26T21:29:27.533Z"
-    }
-  },
+  "tickets": {},
   "stocks": {
     "PCB": {
       "display": "ProCraftBot",
-      "value": 93,
-      "previous": 104,
-      "updateTime": "2023-11-26T17:47:17.744Z",
+      "value": 13,
+      "previous": 12,
+      "updateTime": "2023-12-20T21:06:16.954Z",
       "owners": {
         "775420795861205013": {
           "purchaseCost": 64.35000000000001,
@@ -69,8 +73,8 @@
           "amount": 5
         },
         "584812997776637963": {
-          "purchaseCost": 93.22500000000001,
-          "amount": 32
+          "purchaseCost": 13.824658203125,
+          "amount": 1943
         },
         "706949972985118731": {
           "purchaseCost": -119.9,
@@ -81,36 +85,28 @@
           "amount": 1
         },
         "977024037660278796": {
-          "purchaseCost": 104.5,
-          "amount": 2
+          "purchaseCost": 103.4,
+          "amount": 3
         }
       }
     },
     "PCD": {
       "display": "ProCraftDiscord",
-      "value": 561,
-      "previous": 661,
-      "updateTime": "2023-11-24T03:29:02.605Z",
+      "value": 343,
+      "previous": 382,
+      "updateTime": "2023-12-16T03:59:55.212Z",
       "owners": {
         "1126613271445782579": {
           "purchaseCost": 662.8875,
           "amount": 17
-        },
-        "1067637524786331658": {
-          "purchaseCost": 632.5,
-          "amount": 2
-        },
-        "584812997776637963": {
-          "purchaseCost": 695.2,
-          "amount": 14
         }
       }
     },
     "STRM": {
       "display": "Stream",
-      "value": 286,
-      "previous": 260,
-      "updateTime": "2023-11-26T04:56:09.243Z",
+      "value": 141,
+      "previous": 91,
+      "updateTime": "2023-12-16T00:13:25.075Z",
       "owners": {
         "1057200241104912466": {
           "purchaseCost": 121,
@@ -121,8 +117,8 @@
           "amount": 5
         },
         "584812997776637963": {
-          "purchaseCost": 310.0625,
-          "amount": 40
+          "purchaseCost": 174.315625,
+          "amount": 6
         }
       }
     },

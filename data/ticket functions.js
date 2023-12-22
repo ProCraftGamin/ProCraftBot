@@ -35,10 +35,6 @@ const open = async (data, client, source, id) => {
 					allow: [PermissionFlagsBits.ViewChannel],
 				},
 				{
-					id: '961815613775429692',
-					allow: [PermissionFlagsBits.ViewChannel],
-				},
-				{
 					id: guild.roles.everyone,
 					deny: [PermissionFlagsBits.ViewChannel],
 				},
@@ -57,10 +53,6 @@ const open = async (data, client, source, id) => {
 			permissionOverwrites: [
 				{
 					id: data.userId,
-					allow: [PermissionFlagsBits.ViewChannel],
-				},
-				{
-					id: '961815613775429692',
 					allow: [PermissionFlagsBits.ViewChannel],
 				},
 				{
@@ -83,10 +75,6 @@ const open = async (data, client, source, id) => {
 			permissionOverwrites: [
 				{
 					id: data.userId,
-					allow: [PermissionFlagsBits.ViewChannel],
-				},
-				{
-					id: '961815613775429692',
 					allow: [PermissionFlagsBits.ViewChannel],
 				},
 				{
@@ -175,6 +163,16 @@ const deleteTickets = async (client) => {
 					await channel.delete();
 				} catch (error) {console.error(error);}
 			}
+		} else {
+			await client.channels.fetch(ticket).then(async ticketChannel => {
+				await ticketChannel.messages.fetch({ limit: 1 }).then(messages => {
+					let date = new Date();
+					date = date.setDate(date.getDate() - 2);
+					if (messages.first().createdTimestamp < date) {
+						close(client, ticket, client.user);
+					}
+				});
+			});
 		}
 	}
 	await fs.writeFileSync(path.join(__dirname, '/data.json'), JSON.stringify(pendingData, null, 2));

@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 const fs = require('fs');
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Embed } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { updateStocks } = require('./arcade functions');
 const { addBal } = require('./arcade functions.js');
-const { guildId, logChannel } = require('../config.json');
+const { guildId } = require('../config.json');
 const wait = require('node:timers/promises').setTimeout;
 const readline = require('readline');
 const fetch = require('node-fetch');
@@ -85,28 +85,6 @@ const cmdFunctions = (client) => {
 				}
 			}
 		}
-		// } else if (input.includes('data')) {
-		// 	if (/\s/.test(input)) {
-		// 		const splitInput = input.split(' ');
-
-		// 		switch (splitInput[1]) {
-		// 		case 'modify':
-
-		// 			break;
-		// 		case 'delete':
-
-		// 			break;
-		// 		case 'list':
-
-		// 			break;
-		// 		}
-		// 	} else {
-		// 		console.log('Command usage: data\n\ndata modify (key) (value)\ndata delete (key)\ndata list');
-		// 		cmdFunctions();
-		// 	}
-
-
-		// }
 	});
 };
 
@@ -120,7 +98,8 @@ const checkRoles = async (client) => {
 	const members = await Guild.members.fetch();
 	const memberIds = members.map(user => user.id);
 	const roleStructure = require('../data/role structure');
-	const logsChannel = await client.channels.fetch(logChannel);
+	const { logChannel } = require('../config.json');
+	const logsChannel = client.channels.fetch(logChannel);
 
 
 	let returnDescription = '**✅ All members were successfully checked**\n\n';
@@ -128,7 +107,18 @@ const checkRoles = async (client) => {
 
 	// for each user
 	for (let i = 0; i < memberIds.length; i++) {
+		let finalNick = '';
+		let index = 0;
+
 		const member = await Guild.members.fetch(memberIds[i]);
+		for (const char of member.displayName) {
+			if (index == 0 && char.toLowerCase() == char) finalNick += char.toUpperCase();
+			else if ((member.displayName[index - 1] == ' ' || member.displayName[index - 1] == '_') && char.toLowerCase() == char) finalNick += char.toUpperCase();
+			else finalNick += char;
+			index++;
+		}
+
+		if (!member.permissions.has('Administrator')) if (finalNick != member.displayName) member.setNickname(finalNick);
 		const userRoles = member.roles.cache.map(role => role.id);
 		// for each role the user has
 
@@ -155,9 +145,6 @@ const checkRoles = async (client) => {
 			}
 
 		}
-
-
-		await wait(5000);
 	}
 	if (roleChanged == true) {
 		const embed = new EmbedBuilder()
@@ -169,39 +156,8 @@ const checkRoles = async (client) => {
 
 };
 
-const clearBugReports = async function(client) {
-	console.log('clearBugReports');
-	const data = JSON.parse(fs.readFileSync(path.join(__dirname, '/data.json')));
-	let reportDeleted = false;
-	let reportDisplay = '**Reports deleted:**';
-
-	Object.keys(data['bug reports']).forEach(async reportId => {
-		console.log(reportId);
-		if (data['bug reports'][reportId].status == 6 || data['bug reports'][reportId].status == 5 || data['bug reports'][reportId].status == 4 || data['bug reports'][reportId].status == 3) {
-			client.channels.fetch(logChannel).then(async channel => {
-				await channel.messages.fetch(data['bug reports'][reportId]['message-id']).then(async message => {
-					await message.delete();
-				});
-			});
-			reportDisplay += `\n\n**${data['bug reports'][reportId].description}** by **${data['bug reports'][reportId].user.username}**`;
-			delete data['bug reports'][reportId];
-			fs.writeFileSync(path.join(__dirname, '/data.json'), JSON.stringify(data, null, 2));
-			reportDeleted = true;
-		}
-	});
-	if (reportDeleted) {
-		await client.channels.fetch(logChannel).then(async channel => {
-			const embed = new EmbedBuilder()
-				.setColor('Red')
-				.setTitle('Bug report deletion completed')
-				.setDescription(reportDisplay);
-		});
-	}
-};
-
 
 module.exports = {
 	checkRoles: checkRoles,
 	cmdFunctions: cmdFunctions,
-	clearBugReports: clearBugReports,
 };
