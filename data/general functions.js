@@ -151,7 +151,7 @@ const checkRoles = async (client) => {
 			.setTitle('Role check completed')
 			.setDescription(returnDescription)
 			.setColor('DarkGreen');
-		await logsChannel.send({ embeds: [embed] });
+		await client.channels.fetch(logChannel).then(channel => channel.send({ embeds: [embed] }));
 	}
 
 };
