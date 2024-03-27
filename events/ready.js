@@ -15,10 +15,10 @@ module.exports = {
 		setInterval(generalFunctions.checkRoles, 4.32e+7, client);
 		setInterval(liveCheck, 30000, client);
 		setInterval(deleteTickets, 8.64e+7, client);
-		setInterval(arcadeFunctions.checkStockInactivity, 8.64e+7, client);
+		setInterval(arcadeFunctions.dailyStockUpdate, 8.64e+7, client);
 		deleteTickets(client);
 		liveCheck(client);
-		arcadeFunctions.checkStockInactivity(client);
+		arcadeFunctions.dailyStockUpdate(client);
 		arcadeFunctions.getLastStreakWord(client);
 	},
 };

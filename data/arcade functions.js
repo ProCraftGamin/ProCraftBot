@@ -65,17 +65,15 @@ const transferBal = async (user1Id, user2Id, amount) => {
 	return 1;
 };
 
-const checkStockInactivity = async (client) => {
+const dailyStockUpdate = async (client) => {
 	const stockData = JSON.parse(fs.readFileSync(path.join(__dirname, '/data.json'))).stocks;
 
 	for (const stock in stockData) {
 		if (stock !== 'messageId' && stock !== 'channelId') {
-			let lastUpdate = new Date(stockData[stock].updateTime);
-			lastUpdate = new Date(lastUpdate.getTime() + 6.048e+8);
-			const now = new Date();
-
-			if (now.getTime() > lastUpdate.getTime()) {
-				await updateStocks(stock, 100, '-', client);
+			if (Math.floor(Math.random() * 2) == 1) {
+				await updateStocks(stock, Math.floor(Math.random() * 100), '+', client);
+			} else {
+				await updateStocks(stock, Math.floor(Math.random() * 100), '-', client);
 			}
 		}
 	}
@@ -185,7 +183,7 @@ const unscrambleGame = async (client) => {
 
 	const a = await client.channels.fetch(arcadeId);
 	a.send({ embeds: [initalEmbed] }).then(interaction => {
-		const filter = m => m.content.toLowerCase().replace(' ', '') === (file[filePos].toLowerCase());
+		const filter = m => m.content.toLowerCase().replace(' ', '') === (file[filePos].toLowerCase().replace(' ', ''));
 		const collector = interaction.channel.createMessageCollector({ filter, time: 3600000 });
 
 		collector.on('collect', async m => {
@@ -297,7 +295,7 @@ exports.removeBal = removeBal;
 exports.addBal = addBal;
 exports.getBal = getBal;
 exports.setBal = setBal;
-exports.checkStockInactivity = checkStockInactivity;
+exports.dailyStockUpdate = dailyStockUpdate;
 exports.updateStocks = updateStocks;
 exports.unscrambleGame = unscrambleGame;
 exports.updateStreak = updateStreak;
