@@ -1,5 +1,6 @@
 /* eslint-disable brace-style */
 // Require discord.js classes and token
+const chalk = require('chalk');
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, GatewayIntentBits, Collection, Partials } = require('discord.js');
@@ -14,7 +15,7 @@ const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'
 for (const file of eventFiles) {
 	const filePath = path.join(eventsPath, file);
 	const event = require(filePath);
-	console.log(`Found ${file}`);
+	console.log(chalk.dim(`Found ${file}`));
 	if (event.once) {
 		client.once(event.name, (...args) => event.execute(...args));
 	} else {

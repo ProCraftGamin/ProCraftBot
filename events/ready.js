@@ -3,12 +3,13 @@ const generalFunctions = require('../data/general functions.js');
 const arcadeFunctions = require('../data/arcade functions.js');
 const { liveCheck } = require('../data/twitch events.js');
 const { deleteTickets } = require('../data/ticket functions.js');
+const chalk = require('chalk');
 
 module.exports = {
 	name: Events.ClientReady,
 	once: true,
 	execute(client) {
-		console.log(`Ready! Logged in as ${client.user.tag}`);
+		console.log(chalk.green(`Ready! Logged in as ${client.user.tag}`));
 		client.user.setActivity('for /help', { type: ActivityType.Watching });
 		arcadeFunctions.unscrambleGame(client);
 		generalFunctions.cmdFunctions(client);
